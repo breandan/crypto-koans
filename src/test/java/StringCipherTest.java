@@ -3,11 +3,11 @@ import org.junit.Test;
 /**
  * Created by breandan on 9/3/16.
  */
-public class StringCipherTest {
+class StringCipherTest {
   String[] dictionary = new String[]{"noon", "Wednesday", "secret"};
 
   @Test
-  public void testCipher() {
+  void testCipher() {
     String encryptedString = RandomCipher.hardCipher();
 
     String uniqueCharacters = "";
@@ -26,7 +26,7 @@ public class StringCipherTest {
 
   }
 
-  public boolean containsUnknownWords(String s) {
+  boolean containsUnknownWords(String s) {
 //    String[] words = s.split(" ");
 //
 //    for (String word : words)

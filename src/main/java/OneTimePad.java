@@ -1,17 +1,12 @@
 import java.security.SecureRandom;
 
-/**
- * Created by breandan on 9/4/16.
- */
-public class OneTimePad {
+class OneTimePad {
   private static SecureRandom secureRandom = new SecureRandom();
   private static String message = "Meet me at secret location at noon on Wednesday.";
   private static int ALPHABET_SIZE = 94; //ASCII 32 - 126
-  private static int PAD_SIZE = 1000;
+  private static int PAD_SIZE = 100;
 
   public static void main(String[] args) {
-    StringBuilder sb = new StringBuilder();
-
     final char[] plaintext = message.toCharArray();
 
     // Generate secure random key (never reuse this)
@@ -31,8 +26,8 @@ public class OneTimePad {
 
     System.out.println("Ciphertext: " + new String(ciphertext));
 
-    char[] decrypted = new char[PAD_SIZE];
     // Separate the key from the ciphertext
+    char[] decrypted = new char[PAD_SIZE];
     for (int i = 0; i < PAD_SIZE; i++) {
       decrypted[i] = getShiftChar(ciphertext[i], -pad[i]);
     }
@@ -40,7 +35,7 @@ public class OneTimePad {
     System.out.println("Decrypted text: " + new String(decrypted));
   }
 
-  public static char getShiftChar(char c, int shift) {
+  static char getShiftChar(char c, int shift) {
     int x = c + shift - 32;
     int z = Math.floorMod(x, ALPHABET_SIZE);
     char i = (char) (z + 32);

@@ -1,22 +1,38 @@
-import javax.print.attribute.standard.MediaSize;
-import java.util.HashMap;
-import java.util.Map;
-
-/**
- * Created by breandan on 9/4/16.
- */
-public class IsogramCipher {
-  static String ISOGRAM = "thequickbrownfoxjumpedoverthelazydog";
+class IsogramCipher {
+  static int SHIFT = 2;
+  static String ISOGRAM = "subdermatoglyphic";
   private static String message = "Meet me at secret location at noon on Wednesday.".toLowerCase();
 
   public static void main(String[] args) {
+    String ciphertext = encrypt(ISOGRAM, message, SHIFT);
+    System.out.println("Ciphertext:\t\t" + ciphertext);
+
+    String decrypted_plaintext = decrypt(ISOGRAM, ciphertext, SHIFT);
+    System.out.println("Decrypted text:\t" + decrypted_plaintext);
+  }
+
+  static String decrypt(String isogram, String ciphertext, int shift) {
+    return encrypt(new StringBuffer(isogram).reverse().toString(), ciphertext, shift);
+  }
+
+  static String encrypt(String isogram, String s, int shift) {
     StringBuilder sb = new StringBuilder();
-    for (Character c : message.toCharArray()) {
-      if(ISOGRAM.contains(c + ""))
-        sb.append(ISOGRAM.charAt((ISOGRAM.indexOf(c + "") + 1 )% (ISOGRAM.length() - 1)));
-      else
-        sb.append(c);
+
+    for (char c : s.toCharArray())
+      sb.append(getShiftChar(isogram, c, shift));
+
+    return sb.toString();
+  }
+
+  static char getShiftChar(String isogram, char c, int shift) {
+    int charIndex = isogram.indexOf(c + "");
+
+    if (0 <= charIndex) {
+      int shiftCharIndex = (charIndex + shift) % isogram.length();
+      char shiftChar = isogram.charAt(shiftCharIndex);
+      return shiftChar;
     }
-    System.out.println(sb);
+
+    return c;
   }
 }

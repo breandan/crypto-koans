@@ -2,10 +2,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-/**
- * Created by breandan on 9/3/16.
- */
-public class RandomCipher {
+class RandomCipher {
   private static String message = "Meet me at secret location at noon on Wednesday.".toLowerCase();
   private static Random random = new Random();
 
@@ -13,7 +10,7 @@ public class RandomCipher {
     System.out.println(hardCipher());
   }
 
-  public static String hardCipher() {
+  static String hardCipher() {
     Map<Character, Character> cipher = new HashMap<Character, Character>();
     String uniqueCharacters = "";
 
