@@ -1,5 +1,4 @@
 # crypto-exercises
-Exercises for JavaOne4Kids session (KID7786). Work in progress.
 
 Here we demonstrate some simple ciphers and how to break them. This repository contains sample code, implementing the following ciphers:
 
