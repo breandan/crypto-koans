@@ -1,3 +1,9 @@
+/**
+ * The isogram cipher takes an isogram (a word with no repeating letters) as the key, and replaces
+ * each letter of the ciphertext with the following letter in the isogram. For example, the
+ * isogram "TROUBLEMAKING" maps T->R, R->O, ..., N->G, G->T. ("GATE" becomes "TKRM")
+ */
+
 class IsogramCipher {
   static int SHIFT = 2;
   static String ISOGRAM = "subdermatoglyphic";

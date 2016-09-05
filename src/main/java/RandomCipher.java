@@ -2,8 +2,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+/**
+ * The random cipher, or mixed alphabet cipher, maps each letter in the alphabet with a randomly
+ * chosen letter of the same alphabet, without replacement (ie. A->M, B->M is not allowed).
+ */
+
 class RandomCipher {
   private static String message = "Meet me at secret location at noon on Wednesday.".toLowerCase();
+  private static String englishLettersByFrequency = "etaoinshrdlcumwfgypbvkjxqz";
   private static Random random = new Random();
 
   public static void main(String[] args) {

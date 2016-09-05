@@ -1,3 +1,7 @@
+/**
+ * The Caesar cipher shifts each letter n-letters down the alphabet.
+ */
+
 class CaesarCipher {
   private static String message = "meet me at secret location next wednesday afternoon";
   private static String[] dictionary = {"secret"};

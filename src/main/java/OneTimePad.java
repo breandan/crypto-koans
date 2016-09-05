@@ -1,5 +1,9 @@
 import java.security.SecureRandom;
 
+/**
+ * A one-time pad mixes the ciphertext with a long random key. Never use this key twice!
+ */
+
 class OneTimePad {
   private static SecureRandom secureRandom = new SecureRandom();
   private static String message = "Meet me at secret location at noon on Wednesday.";
