@@ -10,7 +10,8 @@ import kotlin.comparisons.compareBy
 val dictionary: HashSet<String> = HashSet()
 val patternDict: MutableMultimap<String, String> = FastListMultimap.newMultimap()
 val ciphertext: MutableMultimap<String, String> = FastListMultimap.newMultimap()
-var bestGuess: String = "";
+var originalCT: String = ""
+var bestGuess: String = ""
 
 fun main(args: Array<String>) {
   var sc = Scanner(File("src/main/resources/google-10000-english.txt"))
@@ -39,6 +40,7 @@ fun main(args: Array<String>) {
   val cipherTextString = sb.toString()
   println(cipherTextString)
   bestGuess = cipherTextString
+  originalCT = cipherTextString
 
   ciphertext.forEachKey {
     val t = ciphertext.get(it).toList()
@@ -63,11 +65,14 @@ fun main(args: Array<String>) {
   var englishLettersByFrequency = "etaoinshrdlcumwfgypbvkjxqz"
 
   println("Unique ciphertext chars sorted by frequency: " + uniqueCipherTextCharactersSortedByFrequency)
+  println(cipherTextString)
 
   recurse(cipherTextString, ciphertext, uniqueCipherTextCharactersSortedByFrequency.joinToString { it.key.toString() }.replace(", ", ""), englishLettersByFrequency)
 }
-
+var lastLongestSingleton = ""
 fun recurse(cipherText: String, cipherMap: Multimap<String, String>, cipherLetters: String, alphabet: String) {
+  val subTable = getCurrentSubstitutionTableFromCipherText(originalCT, cipherText)
+
   if (scoreResult(cipherText) > scoreResult(bestGuess)) {
     bestGuess = cipherText
     println(bestGuess)
@@ -83,43 +88,65 @@ fun recurse(cipherText: String, cipherMap: Multimap<String, String>, cipherLette
 
   val longestSingleton = getLongestSingleton(cipherMap)
 
-  if (longestSingleton != null) {
+  if (longestSingleton != null && !longestSingleton.second.equals(lastLongestSingleton)) {
     val newCipherText = replaceAll(cipherText, longestSingleton.first, longestSingleton.second)
     val newCipherMap = removeNonMatchingCharactersFromCipherMap(longestSingleton.first, longestSingleton.second, cipherMap)
     val newCipherLetters = replaceAll(cipherLetters, longestSingleton.first, "")
     val newAlphabet = replaceAll(alphabet, longestSingleton.second, "")
 
+    lastLongestSingleton = longestSingleton.second
+
     recurse(newCipherText, newCipherMap, newCipherLetters, newAlphabet)
-  } else {
-    val candidateScoreMap: MutableMap<Char, Int> = HashMap()
-
-    for (candidate in alphabet) {
-      var score = 0
-      for (entry in cipherMap.keyMultiValuePairsView()) {
-        val idxOfFirstChar = entry.one.indexOfFirst { it.equals(cipherText[0]) }
-        if (idxOfFirstChar >= 0)
-          for (word in entry.two)
-            if (idxOfFirstChar == word.indexOfFirst { it.equals(candidate) })
-              score++
-      }
-
-      candidateScoreMap.put(candidate, score)
-    }
-
-    val resortedAlphabet = candidateScoreMap.entries.sortedWith(compareBy({ it.value })).asReversed().toString().filter { it.isLetter() }
-//    println(resortedAlphabet)
-
-    for (ix: Char in resortedAlphabet) {
-      val candidateCipherLetter: Char = cipherLetters[0]
-      val candidateReplaceLetter: Char = ix
-      val newCipherText = replaceAll(cipherText, candidateCipherLetter + "", candidateReplaceLetter + "")
-      val newCipherMap = removeNonMatchingCharactersFromCipherMap(candidateCipherLetter + "", candidateReplaceLetter + "", cipherMap)
-      val newCipherLetters = cipherLetters.substring(1)
-      val newAlphabet = replaceAll(alphabet, candidateReplaceLetter + "", "")
-
-      recurse(newCipherText, newCipherMap, newCipherLetters, newAlphabet)
-    }
   }
+
+//  resortAlphabetByCiphermapFrequency(alphabet, cipherMap, cipherText)
+
+  for (letter: Char in alphabet) {
+    val candidateCipherLetter: Char = cipherLetters[0]
+    val candidateReplaceLetter: Char = letter
+    val newCipherText = replaceAll(cipherText, candidateCipherLetter + "", candidateReplaceLetter + "")
+    val newCipherMap = removeNonMatchingCharactersFromCipherMap(candidateCipherLetter + "", candidateReplaceLetter + "", cipherMap)
+    val newCipherLetters = cipherLetters.substring(1)
+    val newAlphabet = replaceAll(alphabet, candidateReplaceLetter + "", "")
+
+    recurse(newCipherText, newCipherMap, newCipherLetters, newAlphabet)
+  }
+
+//  println(alphabet)
+//  println(cipherText)
+}
+
+private fun resortAlphabetByCiphermapFrequency(alphabet: String, cipherMap: Multimap<String, String>, cipherText: String): String {
+  val candidateScoreMap: MutableMap<Char, Int> = HashMap()
+
+  for (candidate in alphabet) {
+    var score = 0
+    for (entry in cipherMap.keyMultiValuePairsView()) {
+      val idxOfFirstChar = entry.one.indexOfFirst { it.equals(cipherText[0]) }
+      if (idxOfFirstChar >= 0)
+        for (word in entry.two)
+          if (idxOfFirstChar == word.indexOfFirst { it.equals(candidate) })
+            score++
+    }
+
+    candidateScoreMap.put(candidate, score)
+  }
+
+  return candidateScoreMap.entries.sortedWith(compareBy({ it.value })).asReversed().toString().filter { it.isLetter() }
+}
+
+fun getCurrentSubstitutionTableFromCipherText(originalCT: String, currentCT: String): Map<Char, Char> {
+  val map = HashMap<Char, Char>()
+
+  var i = 0
+  for (letter in originalCT) {
+    if (currentCT[i].isUpperCase())
+      map.put(letter, currentCT[i])
+
+    i++
+  }
+
+  return map
 }
 
 fun scoreResult(cipherText: String): Int {
@@ -129,11 +156,11 @@ fun scoreResult(cipherText: String): Int {
 }
 
 fun replaceAll(text: String, sourceLetters: String, replaceLetters: String): String {
-  var i = 0;
-  var replacedText = text;
+  var i = 0
+  var replacedText = text
   for (letter in sourceLetters) {
-    if (i < replaceLetters.length)
-      replacedText = replacedText.replace(letter, replaceLetters[i].toUpperCase())
+    if (i < replaceLetters.length && letter.isLowerCase())
+      replacedText = replacedText.replace(letter + "", replaceLetters[i].toUpperCase() + "")
     else
       replacedText = replacedText.replace(letter + "", "")
     i++
@@ -151,30 +178,40 @@ fun getLongestSingleton(cipherMap: Multimap<String, String>): Pair<String, Strin
   }
 
   if (championSingleton.first.isEmpty())
-    return null;
+    return null
 
-  return championSingleton;
+  return championSingleton
 }
 
 fun removeNonMatchingCharactersFromCipherMap(cipherWord: String, realWord: String, cipherMap: Multimap<String, String>): MutableMultimap<String, String> {
-  var i = 0;
+  var i = 0
   val cipherMapCopy: MutableMultimap<String, String> = FastListMultimap.newMultimap()
-  for (cipherLetter in cipherWord) {
-    val realLetter = realWord[i]
-    for (entry in cipherMap.keyMultiValuePairsView()) {
-      for (word in entry.two) {
-        if (entry.one.indexOf(cipherLetter) == word.indexOf(realLetter))
-          cipherMapCopy.put(entry.one, word)
+  for (entry in cipherMap.keyMultiValuePairsView()) {
+    for (word in entry.two) {
+      val replacementWord = replaceAll(entry.one, cipherWord, realWord)
+      if (doesNotConflict(word, replacementWord)) {
+        cipherMapCopy.put(entry.one, word)
+      }
 //        else
 //          println("Nonmatching: (" + entry.one + ", " +  word + ")")
-      }
     }
-    i++;
+    i++
   }
 
 //  println("(" + cipherWord + "->" + realWord + ")" + "reduced from " + cipherMap.size() + " to " + cipherMapCopy.size())
 
   return cipherMapCopy
+}
+
+fun doesNotConflict(word: String, replacementWord: String): Boolean {
+  var i = 0
+  for (letter in word) {
+    if (replacementWord[i].isUpperCase() && !letter.toUpperCase().equals(replacementWord[i]))
+      return false
+    i++
+  }
+
+  return true
 }
 
 fun cipherMapContainsEmptyPattern(cipherMap: Multimap<String, String>): Boolean {
