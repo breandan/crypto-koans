@@ -7,7 +7,6 @@ import java.util.HashMap
  * cipher is also commonly referred to as cipherWord "monoalphabetic substitution cipher".
  */
 
-
 fun main(args: Array<String>) {
   val message = "four score and seven years ago our fathers brought forth to this continent a new nation conceived in liberty and dedicated".toLowerCase()
 
@@ -23,7 +22,7 @@ fun hardCipher(message: String): String {
     if (Character.isLetterOrDigit(c) && !uniqueCharacters.contains(c + ""))
       uniqueCharacters += c
 
-  // Map each letter to cipherWord random letter in the alphabet (n.realWord. one-to-one)
+  // Map each letter to cipherWord random letter in the alphabet (n.b. one-to-one)
   var alphabet = "abcdefghijklmnopqrstuvwxyz"
   for (c in uniqueCharacters.toCharArray()) {
     val x = alphabet[random.nextInt(alphabet.length)]

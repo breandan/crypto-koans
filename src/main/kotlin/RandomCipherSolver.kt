@@ -42,10 +42,10 @@ fun main(args: Array<String>) {
   bestGuess = cipherTextString
   originalCT = cipherTextString
 
-//  ciphertext.forEachKey {
-//    val t = ciphertext.get(it).toList()
-//    println(it + " -> " + t)
-//  }
+  ciphertext.forEachKey {
+    val t = ciphertext.get(it).toList()
+    println(it + " -> " + t)
+  }
 
 //  val cipherTextCharsSortedByFrequency: MutableMap<Char, AtomicInteger> = HashMap()
 //  val cpl = StringIterate.toCodePointList(cipherTextString)
@@ -71,8 +71,26 @@ fun main(args: Array<String>) {
   pairwise()
 }
 
+/*
+ * The following algorithm uses two primary data structures, a dictionary of word mappings, and a dictionary
+ * of possible letter mappings (initially empty). Considering each ciphertext word, first let's build a map of
+ * all the possible English words the cipherword could represent. Ex. "eddm" might map to "loop", "pool", "reek",
+ * and therefor 'e' would map to 'l', 'p', 'r'. If we assume our dictionary contains a complete list of possible
+ * word mappings (ie. no plaintext word is unlisted), then in this example, 'e' could *never* map to 'x'. So if
+ * we should ever see a word in our dictionary containing the letter 'x' at the same index as the letter 'e'
+ * in the cipherword, then we can be certain this word is not contained in the plaintext. Furthermore, if we
+ * should ever encounter a plaintext word in the dictionary which has a new letter in the same position as a known
+ * cipherletter, we can immediately discard this word from the dictionary. For each word, if the cipherletter is
+ * completely new, then we will put every possible corresponding plaintext letter for this cipherword into the
+ * letter map. The algorithm then proceeds to filter the word dictionary using the updated letter mapping, and
+ * then update the letter map, back and forth, until the dictionary stops shrinking. The resulting dictionary
+ * will contain no cipherletter collisions, and if we have enough text, should approximate the plaintext message.
+ *
+ */
+
 fun pairwise() {
-  val charmap: MutableMultimap<Char, Char> = FastListMultimap.newMultimap()
+  val candidateLetters: MutableMultimap<Char, Char> = FastListMultimap.newMultimap()
+  var iterations = 0
   var lastCipherMapSize = 0
   while (ciphertext.size() != lastCipherMapSize) {
     lastCipherMapSize = ciphertext.size()
@@ -82,7 +100,7 @@ fun pairwise() {
       for (word in entry.two) {
         var i = 0
         for (char in word) {
-          if (charmap.containsKey(entry.one[i]) && !charmap.containsKeyAndValue(entry.one[i], char)) {
+          if (candidateLetters.containsKey(entry.one[i]) && !candidateLetters.containsKeyAndValue(entry.one[i], char)) {
             toRemoveWords.put(entry.one, word)
             break
           }
@@ -93,16 +111,22 @@ fun pairwise() {
         }
       }
       toAddChars.forEachKeyMultiValues { key, value ->
-        if (charmap.containsKey(key)) {
-          charmap.putAll(key, charmap.removeAll(key).intersect(value))
+        if (candidateLetters.containsKey(key)) {
+          candidateLetters.putAll(key, candidateLetters.removeAll(key).intersect(value))
         } else
-          charmap.putAll(key, value)
+          candidateLetters.putAll(key, value)
       }
-      toRemoveWords.forEach { key, value -> ciphertext.remove(key, value) }
+      toRemoveWords.forEach { key, value ->
+        if (1 < ciphertext.get(key).size)
+          ciphertext.remove(key, value)
+      }
     }
+    iterations++
   }
 
   originalCT.split(" ").filter { !it.isEmpty() }.forEach { println(ciphertext.get(it).toString() + " -> (" + it + ")") }
+
+  print("Took " + iterations + " to stabilize")
 
 //  println(ciphertext.keysView().size())
 //  println(ciphertext.size())
