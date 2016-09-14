@@ -1,7 +1,8 @@
 import java.security.SecureRandom
 
 /**
- * A one-time pad mixes the ciphertext with cipherWord long random key. Never use this key twice!
+ * A one-time pad mixes the ciphertext with a long random key. Never use this
+ * key twice!
  */
 
 val secureRandom = SecureRandom()

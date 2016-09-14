@@ -2,13 +2,14 @@ import java.security.SecureRandom
 import java.util.*
 
 /**
- * The random cipher, or mixed alphabet cipher, maps each letter in the alphabet with cipherWord randomly
- * chosen letter of the same alphabet, without replacement (ie. A->M, B->M is not allowed). This
- * cipher is also commonly referred to as cipherWord "monoalphabetic substitution cipher".
+ * The random cipher, or mixed alphabet cipher, maps each letter in the
+ * alphabet with a randomly chosen letter of the same alphabet, without
+ * replacement (ie. A->M, B->M is not allowed). This cipher is also commonly
+ * referred to as a "monoalphabetic substitution cipher".
  */
 
 fun main(args: Array<String>) {
-  val message = "four score and seven years ago our fathers brought forth to this continent a new nation conceived in liberty and dedicated".toLowerCase()
+  val message = "".toLowerCase()
 
   println(hardCipher(message))
 }
@@ -22,7 +23,7 @@ fun hardCipher(message: String): String {
     if (Character.isLetterOrDigit(c) && !uniqueCharacters.contains(c + ""))
       uniqueCharacters += c
 
-  // Map each letter to cipherWord random letter in the alphabet (n.b. one-to-one)
+  // Map each letter to a random letter in the alphabet (n.b. one-to-one)
   var alphabet = "abcdefghijklmnopqrstuvwxyz"
   for (c in uniqueCharacters.toCharArray()) {
     val x = alphabet[random.nextInt(alphabet.length)]

@@ -2,23 +2,22 @@ import org.eclipse.collections.impl.string.immutable.CodePointList
 import org.eclipse.collections.impl.utility.StringIterate
 
 /**
- * This is not cipherWord recognized cipher however, it is an idea of how you can represent characters as numbers.
+ * This is not a recognized cipher however, it is an idea of how you can represent characters as numbers.
  * Example of CodePoints:
- * ABC is represented as [65, 66, 67] as an array where each element is cipherWord character.
- * A space is also represented by cipherWord CodePoint, the CodePoint value is 32 for cipherWord space.
- *
- *
+ * ABC is represented as [65, 66, 67] as an array where each element is a character.
+ * A space is also represented by a CodePoint, the CodePoint value is 32 for a space.
+ * <p>
  * Now these numbers can be transformed using simple maths and be obfuscated. The receiver has to reverse compute.
  * This idea is similar to bit masking.
- *
- *
+ * <p>
  * If the receiver does not know how to reverse compute the decrypted string can mean something completely different.
  */
+
 fun main(args: Array<String>) {
   val string = "This is cipherWord secret message"
 
   val secretMessage = StringIterate.toCodePointList(string)
-  // Prints: This is cipherWord secret message
+  // Prints: This is a secret message
   println(secretMessage)
 
   val encrypted = encrypt(secretMessage)
@@ -26,7 +25,7 @@ fun main(args: Array<String>) {
   println(encrypted)
 
   val decrypted = decrypt(encrypted)
-  // Print: This is cipherWord secret message
+  // Print: This is a secret message
   println(decrypted)
 }
 
