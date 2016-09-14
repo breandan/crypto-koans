@@ -41,11 +41,6 @@ fun main(args: Array<String>) {
   bestGuess = cipherTextString
   originalCT = cipherTextString
 
-  ciphertext.forEachKey {
-    val t = ciphertext.get(it).toList()
-    println(it + " -> " + t)
-  }
-
   pairwise()
 }
 

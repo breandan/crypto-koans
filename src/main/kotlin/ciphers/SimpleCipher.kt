@@ -1,8 +1,5 @@
 package ciphers
 
-val oldChar = 'a'
-val newChar = 'e'
-
 fun main(args: Array<String>) {
   val plaintext = "what do you call a camel with three humps"
   println("Plaintext:\t" + plaintext)
@@ -13,7 +10,7 @@ fun main(args: Array<String>) {
   val decrypted = decrypt(ciphertext)
   println("Decrypted:\t" + decrypted)
 
-  if(decrypted.equals(plaintext))
+  if (decrypted.equals(plaintext))
     println("Decryption succeeded!")
   else
     println("Decryption failure!")
@@ -24,9 +21,15 @@ fun main(args: Array<String>) {
  */
 
 private fun decrypt(ciphertext: String): String {
-  return ciphertext.replace(newChar, oldChar, true)
+  return ciphertext
+    .replace("p", "e")
+    .replace("r", "a")
+    .replace("z", "l")
 }
 
 private fun encrypt(message: String): String {
-  return message.replace(oldChar, newChar, true)
+  return message
+    .replace("e", "p")
+    .replace("a", "r")
+    .replace("l", "z")
 }

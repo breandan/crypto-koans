@@ -12,7 +12,7 @@ import java.io.File
 fun main(args: Array<String>) {
   val SHIFT = 1
   val ISOGRAM = "subdermatoglyphic"
-  val message = "Meet me at secret location at noon on Wednesday.".toLowerCase()
+  val message = "Meet me at secret location at noon on Wednesday".toLowerCase()
 
   val ciphertext = encrypt(ISOGRAM, message, SHIFT)
   println("Ciphertext:\t\t" + ciphertext)
