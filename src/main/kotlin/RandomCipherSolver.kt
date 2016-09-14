@@ -11,40 +11,40 @@ var originalCT: String = ""
 var bestGuess: String = ""
 
 fun main(args: Array<String>) {
-    var sc = Scanner(File("src/main/resources/google-10000-english.txt"))
-    val lines = ArrayList<String>()
-    while (sc.hasNextLine()) {
-        lines.add(sc.nextLine())
-    }
+  var sc = Scanner(File("src/main/resources/google-10000-english.txt"))
+  val lines = ArrayList<String>()
+  while (sc.hasNextLine()) {
+    lines.add(sc.nextLine())
+  }
 
-    lines.forEach {
-        patternDict.put(convertWordToPattern(it), it)
-        dictionary.plusAssign(it)
-    }
+  lines.forEach {
+    patternDict.put(convertWordToPattern(it), it)
+    dictionary.plusAssign(it)
+  }
 
-    sc = Scanner(File("src/main/resources/ciphertext"))
-    sc.useDelimiter(" ")
+  sc = Scanner(File("src/main/resources/ciphertext"))
+  sc.useDelimiter(" ")
 
-    val sb: StringBuilder = StringBuilder()
+  val sb: StringBuilder = StringBuilder()
 
-    while (sc.hasNext()) {
-        val s = sc.next()
-        if (!ciphertext.containsKey(s))
-            ciphertext.putAll(s, patternDict.get(convertWordToPattern(s)))
-        sb.append(s + " ")
-    }
+  while (sc.hasNext()) {
+    val s = sc.next()
+    if (!ciphertext.containsKey(s))
+      ciphertext.putAll(s, patternDict.get(convertWordToPattern(s)))
+    sb.append(s + " ")
+  }
 
-    val cipherTextString = sb.toString()
-    println(cipherTextString)
-    bestGuess = cipherTextString
-    originalCT = cipherTextString
+  val cipherTextString = sb.toString()
+  println(cipherTextString)
+  bestGuess = cipherTextString
+  originalCT = cipherTextString
 
-    ciphertext.forEachKey {
-        val t = ciphertext.get(it).toList()
-        println(it + " -> " + t)
-    }
+  ciphertext.forEachKey {
+    val t = ciphertext.get(it).toList()
+    println(it + " -> " + t)
+  }
 
-    pairwise()
+  pairwise()
 }
 
 /**
@@ -71,57 +71,59 @@ fun main(args: Array<String>) {
  */
 
 fun pairwise() {
-    var iterations = 0
-    var lastCipherMapSize = 0
-    val letterMap: HashBagMultimap<Char, Char> = HashBagMultimap.newMultimap()
+  var iterations = 0
+  var lastCipherMapSize = 0
+  val letterMap: HashBagMultimap<Char, Char> = HashBagMultimap.newMultimap()
 
-    for (i in 'a'..'z') {
-        for (j in 'a'..'z') {
-            letterMap.put(i, j)
+  for (i in 'a'..'z') {
+    for (j in 'a'..'z') {
+      letterMap.put(i, j)
+    }
+  }
+
+  while (ciphertext.size() != lastCipherMapSize) {
+    lastCipherMapSize = ciphertext.size()
+    for (entry in ciphertext.keyMultiValuePairsView()) {
+      val toRemoveWords: HashMap<String, String> = HashMap()
+      val toAddLetters: HashBagMultimap<Char, Char> = HashBagMultimap.newMultimap()
+      for (word in entry.two) {
+        for (i in 0..word.length - 1) {
+          if (!letterMap.containsKeyAndValue(entry.one[i], word[i])) {
+            toRemoveWords.put(entry.one, word)
+            break
+          }
+
+          if (word[i].isLetter()) {
+            toAddLetters.put(entry.one[i], word[i])
+          }
         }
-    }
+      }
+      toAddLetters.forEachKeyMultiValues { cipherLetter, newLetters ->
+        letterMap.putAll(cipherLetter,
+          letterMap.removeAll(cipherLetter).intersect(newLetters))
+      }
+      toRemoveWords.forEach { key, value ->
+        ciphertext.remove(key, value)
 
-    while (ciphertext.size() != lastCipherMapSize) {
-        lastCipherMapSize = ciphertext.size()
-        for (entry in ciphertext.keyMultiValuePairsView()) {
-            val toRemoveWords: HashMap<String, String> = HashMap()
-            val toAddLetters: HashBagMultimap<Char, Char> = HashBagMultimap.newMultimap()
-            for (word in entry.two) {
-                for (i in 0..word.length - 1) {
-                    if (!letterMap.containsKeyAndValue(entry.one[i], word[i])) {
-                        toRemoveWords.put(entry.one, word)
-                        break
-                    }
-
-                    if (word[i].isLetter()) {
-                        toAddLetters.put(entry.one[i], word[i])
-                    }
-                }
-            }
-            toAddLetters.forEachKeyMultiValues { cipherLetter, newLetters ->
-                letterMap.putAll(cipherLetter,
-                        letterMap.removeAll(cipherLetter).intersect(newLetters))
-            }
-            toRemoveWords.forEach { key, value ->
-                ciphertext.remove(key, value)
-                if (ciphertext[key].isEmpty)
-                    ciphertext.put(key,
-                            String(key.map { letterMap[it].first().toUpperCase() }.toCharArray()))
-            }
-        }
-        iterations++
+        // Try to solve for proper nouns, but let's indicate with CAPS
+        if (ciphertext[key].isEmpty)
+          ciphertext.put(key,
+            key.map { letterMap[it].first().toUpperCase() }.joinToString(""))
+      }
     }
+    iterations++
+  }
 
-    originalCT.split(" ").filter { !it.isEmpty() }.forEach {
-        println(ciphertext.get(it).toString() + " -> (" + it + ")")
-    }
+  originalCT.split(" ").filter { !it.isEmpty() }.forEach {
+    println(ciphertext.get(it).toString() + " -> (" + it + ")")
+  }
 }
 
 fun convertWordToPattern(word: String): String {
-    val letters: HashMap<Char, Char> = HashMap()
+  val letters: HashMap<Char, Char> = HashMap()
 
-    return String(word.map {
-        letters.computeIfAbsent(it,
-                { (letters.size + 97).toChar() })
-    }.toCharArray())
+  return String(word.map {
+    letters.computeIfAbsent(it,
+      { (letters.size + 97).toChar() })
+  }.toCharArray())
 }

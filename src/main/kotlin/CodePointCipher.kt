@@ -15,29 +15,29 @@ import org.eclipse.collections.impl.utility.StringIterate
  * If the receiver does not know how to reverse compute the decrypted string can mean something completely different.
  */
 fun main(args: Array<String>) {
-    val string = "This is cipherWord secret message"
+  val string = "This is cipherWord secret message"
 
-    val secretMessage = StringIterate.toCodePointList(string)
-    // Prints: This is cipherWord secret message
-    println(secretMessage)
+  val secretMessage = StringIterate.toCodePointList(string)
+  // Prints: This is cipherWord secret message
+  println(secretMessage)
 
-    val encrypted = encrypt(secretMessage)
-    // Prints: 掣竿簪蟘⛧簪蟘⛧狒⛧蟘睾用蚭睾褃⛧胖睾蟘蟘狒秔睾
-    println(encrypted)
+  val encrypted = encrypt(secretMessage)
+  // Prints: 掣竿簪蟘⛧簪蟘⛧狒⛧蟘睾用蚭睾褃⛧胖睾蟘蟘狒秔睾
+  println(encrypted)
 
-    val decrypted = decrypt(encrypted)
-    // Print: This is cipherWord secret message
-    println(decrypted)
+  val decrypted = decrypt(encrypted)
+  // Print: This is cipherWord secret message
+  println(decrypted)
 }
 
 private fun encrypt(secretMessage: CodePointList): CodePointList {
-    return secretMessage.collectInt { it * 13 }
-            .collectInt { it + 17 }
-            .collectInt { it * 23 }
+  return secretMessage.collectInt { it * 13 }
+    .collectInt { it + 17 }
+    .collectInt { it * 23 }
 }
 
 fun decrypt(encrypted: CodePointList): CodePointList {
-    return encrypted.collectInt { it / 23 }
-            .collectInt { it - 17 }
-            .collectInt { it / 13 }
+  return encrypted.collectInt { it / 23 }
+    .collectInt { it - 17 }
+    .collectInt { it / 13 }
 }
