@@ -1,3 +1,5 @@
+package ciphers
+
 import java.security.SecureRandom
 import java.util.*
 
@@ -9,12 +11,12 @@ import java.util.*
  */
 
 fun main(args: Array<String>) {
-  val message = "".toLowerCase()
+  val message = "four score and seven years ago our fathers".toLowerCase()
 
-  println(hardCipher(message))
+  println(encrypt(message))
 }
 
-fun hardCipher(message: String): String {
+private fun encrypt(message: String): String {
   val random = SecureRandom()
   val cipher = HashMap<Char, Char>()
   var uniqueCharacters = ""

@@ -1,3 +1,5 @@
+package ciphers
+
 import java.security.SecureRandom
 
 /**
@@ -10,13 +12,6 @@ val ALPHABET_SIZE = 94 //ASCII 32 - 126
 val PAD_SIZE = 100
 
 fun main(args: Array<String>) {
-  fun getShiftChar(c: Char, shift: Int): Char {
-    val x = c.toInt() + shift - 32
-    val z = Math.floorMod(x, ALPHABET_SIZE)
-    val i = (z + 32).toChar()
-    return i
-  }
-
   val message = "Meet me at secret location at noon on Wednesday."
   val plaintext = message.toCharArray()
 
@@ -44,4 +39,11 @@ fun main(args: Array<String>) {
   }
 
   println("Decrypted text: " + String(decrypted))
+}
+
+private fun getShiftChar(c: Char, shift: Int): Char {
+  val x = c.toInt() + shift - 32
+  val z = Math.floorMod(x, ALPHABET_SIZE)
+  val i = (z + 32).toChar()
+  return i
 }

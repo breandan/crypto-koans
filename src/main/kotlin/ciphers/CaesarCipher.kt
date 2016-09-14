@@ -1,3 +1,5 @@
+package ciphers
+
 /**
  * The Caesar cipher shifts each letter n-letters down the alphabet.
  */
@@ -24,11 +26,11 @@ fun main(args: Array<String>) {
   }
 }
 
-fun decrypt(ciphertext: String, key: Int): String {
+private fun decrypt(ciphertext: String, key: Int): String {
   return encrypt(ciphertext, -key)
 }
 
-fun encrypt(string: String, key: Int): String {
+private fun encrypt(string: String, key: Int): String {
   val sb = StringBuilder()
 
   for (c in string.toCharArray()) {
@@ -41,7 +43,7 @@ fun encrypt(string: String, key: Int): String {
   return sb.toString()
 }
 
-fun getShiftChar(c: Char, shift: Int): Char {
+private fun getShiftChar(c: Char, shift: Int): Char {
   val x = c.toInt() + shift
   val y = x - 97
   val z = Math.floorMod(y, 26)

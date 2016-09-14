@@ -1,17 +1,19 @@
+package solvers
+
 import org.eclipse.collections.api.multimap.MutableMultimap
 import org.eclipse.collections.impl.multimap.bag.HashBagMultimap
 import org.eclipse.collections.impl.multimap.list.FastListMultimap
 import java.io.File
 import java.util.*
 
-val dictionary: HashSet<String> = HashSet()
-val patternDict: MutableMultimap<String, String> = FastListMultimap.newMultimap()
-val ciphertext: MutableMultimap<String, String> = FastListMultimap.newMultimap()
-var originalCT: String = ""
-var bestGuess: String = ""
+private val dictionary: HashSet<String> = HashSet()
+private val patternDict: MutableMultimap<String, String> = FastListMultimap.newMultimap()
+private val ciphertext: MutableMultimap<String, String> = FastListMultimap.newMultimap()
+private var originalCT: String = ""
+private var bestGuess: String = ""
 
 fun main(args: Array<String>) {
-  var sc = Scanner(File("src/main/resources/google-10000-english.txt"))
+  var sc = Scanner(File("src/solvers.ciphers.main/resources/google-10000-english.txt"))
   val lines = ArrayList<String>()
   while (sc.hasNextLine()) {
     lines.add(sc.nextLine())
@@ -22,7 +24,7 @@ fun main(args: Array<String>) {
     dictionary.plusAssign(it)
   }
 
-  sc = Scanner(File("src/main/resources/ciphertext"))
+  sc = Scanner(File("src/solvers.ciphers.main/resources/solvers.getCiphertext"))
   sc.useDelimiter(" ")
 
   val sb: StringBuilder = StringBuilder()
@@ -53,19 +55,19 @@ fun main(args: Array<String>) {
  * full). Considering each ciphertext word, first let's build a map of all
  * the possible English words the cipherword could represent. Ex. "eddm"
  * might map to "loop", "pool", "reek", and therefor 'e' would map to 'l',
- * 'p', 'r'. If we assume our dictionary contains a complete list of possible
+ * 'p', 'r'. If we assume our solvers.getDictionary contains a complete list of possible
  * word mappings (ie. no plaintext word is unlisted), then in this example,
  * 'e' could *never* map to 'x'. So if we should ever see a word in our
- * dictionary containing the letter 'x' at the same index as the letter 'e'
+ * solvers.getDictionary containing the letter 'x' at the same index as the letter 'e'
  * in the cipherword, then we can be certain this word is not contained in
  * the plaintext. Furthermore, if we should ever encounter a plaintext word
- * in the dictionary which has a new letter in the same position as a known
- * cipherletter, we can immediately discard this word from the dictionary.
+ * in the solvers.getDictionary which has a new letter in the same position as a known
+ * cipherletter, we can immediately discard this word from the solvers.getDictionary.
  * For each word, if the cipherletter is completely new, then we will put
  * every possible corresponding plaintext letter for this cipherword into the
- * letter map. The algorithm then proceeds to filter the word dictionary
+ * letter map. The algorithm then proceeds to filter the word solvers.getDictionary
  * using the updated letter mapping, and then update the letter map, back and
- * forth, until the dictionary stops shrinking. The resulting dictionary will
+ * forth, until the solvers.getDictionary stops shrinking. The resulting solvers.getDictionary will
  * contain no cipherletter collisions, and if we have enough text, should
  * approximate the plaintext message.
  */

@@ -1,3 +1,5 @@
+package ciphers
+
 import org.eclipse.collections.impl.string.immutable.CodePointList
 import org.eclipse.collections.impl.utility.StringIterate
 

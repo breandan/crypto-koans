@@ -1,3 +1,7 @@
+package ciphers
+
+import java.io.File
+
 /**
  * The isogram cipher takes an isogram (a word with no repeating letters) as
  * the key, and replaces each letter of the ciphertext with the following
@@ -15,9 +19,11 @@ fun main(args: Array<String>) {
 
   val decrypted_plaintext = decrypt(ISOGRAM, ciphertext, SHIFT)
   println("Decrypted text:\t" + decrypted_plaintext)
+
+  File("src/solvers.ciphers.main/resources/solvers.getCiphertext").writeText(ciphertext)
 }
 
-fun decrypt(isogram: String, ciphertext: String, shift: Int): String {
+private fun decrypt(isogram: String, ciphertext: String, shift: Int): String {
   return encrypt(StringBuffer(isogram).reverse().toString(), ciphertext, shift)
 }
 
