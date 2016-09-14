@@ -20,7 +20,7 @@ fun main(args: Array<String>) {
   val decrypted_plaintext = decrypt(ISOGRAM, ciphertext, SHIFT)
   println("Decrypted text:\t" + decrypted_plaintext)
 
-  File("src/solvers.ciphers.main/resources/solvers.getCiphertext").writeText(ciphertext)
+  File("src/main/resources/ciphertext").writeText(ciphertext)
 }
 
 private fun decrypt(isogram: String, ciphertext: String, shift: Int): String {
