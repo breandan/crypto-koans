@@ -24,7 +24,7 @@ fun main(args: Array<String>) {
 }
 
 private fun decrypt(isogram: String, ciphertext: String, shift: Int): String {
-  return encrypt(StringBuffer(isogram).reverse().toString(), ciphertext, shift)
+  return encrypt(isogram.reversed(), ciphertext, shift)
 }
 
 private fun encrypt(isogram: String, s: String, shift: Int): String {

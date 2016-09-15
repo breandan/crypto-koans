@@ -38,12 +38,12 @@ fun main(args: Array<String>) {
     decrypted[i] = getShiftChar(ciphertext[i], -pad[i])
   }
 
-  println("Decrypted text: " + String(decrypted))
+  println("Decrypted:  " + String(decrypted))
 }
 
 private fun getShiftChar(c: Char, shift: Int): Char {
-  val x = c.toInt() + shift - 32
+  val x = c.toInt() - 33 + shift
   val z = Math.floorMod(x, ALPHABET_SIZE)
-  val i = (z + 32).toChar()
+  val i = (z + 33).toChar()
   return i
 }
