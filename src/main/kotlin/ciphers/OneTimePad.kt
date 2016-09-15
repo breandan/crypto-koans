@@ -13,37 +13,45 @@ val PAD_SIZE = 100
 
 fun main(args: Array<String>) {
   val message = "Meet me at secret location at noon on Wednesday."
-  val plaintext = message.toCharArray()
 
   // Generate secure random key (never reuse this)
-  val pad = IntArray(PAD_SIZE)
-  for (i in pad.indices) {
-    pad[i] = secureRandom.nextInt(ALPHABET_SIZE)
-  }
+  val pad = ByteArray(PAD_SIZE)
+  secureRandom.nextBytes(pad)
+  println("One time pad: " + pad.map { getShiftChar(0.toChar(), it) }
+    .joinToString(""))
 
+  val ciphertext = encrypt(message, pad)
+  println("Ciphertext:   " + ciphertext)
+
+  val decrypted = decrypt(ciphertext, pad)
+  println("Decrypted:    " + decrypted)
+  println(Byte.MAX_VALUE.toChar())
+}
+
+private fun encrypt(plaintext: String, pad: ByteArray): String {
   // Combine the key with the plaintext
-  val ciphertext = CharArray(PAD_SIZE)
-  for (i in 0..PAD_SIZE - 1) {
-    if (i < plaintext.size)
+  val ciphertext = CharArray(pad.size)
+  for (i in 0..pad.size - 1) {
+    if (i < plaintext.length)
       ciphertext[i] = getShiftChar(plaintext[i], pad[i])
     else
       ciphertext[i] = getShiftChar(' ', pad[i])
   }
-
-  println("Ciphertext: " + String(ciphertext))
-
-  // Separate the key from the ciphertext
-  val decrypted = CharArray(PAD_SIZE)
-  for (i in 0..PAD_SIZE - 1) {
-    decrypted[i] = getShiftChar(ciphertext[i], -pad[i])
-  }
-
-  println("Decrypted:  " + String(decrypted))
+  return String(ciphertext)
 }
 
-private fun getShiftChar(c: Char, shift: Int): Char {
-  val x = c.toInt() - 33 + shift
+private fun decrypt(ciphertext: String, pad: ByteArray): String {
+  // Separate the key from the ciphertext
+  val decrypted = CharArray(pad.size)
+  for (i in 0..pad.size - 1) {
+    decrypted[i] = getShiftChar(ciphertext[i], (-pad[i]).toByte())
+  }
+  return String(decrypted)
+}
+
+private fun getShiftChar(c: Char, shift: Byte): Char {
+  val x = c.toInt() - 32 + shift
   val z = Math.floorMod(x, ALPHABET_SIZE)
-  val i = (z + 33).toChar()
+  val i = (z + 32).toChar()
   return i
 }

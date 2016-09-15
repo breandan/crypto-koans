@@ -7,38 +7,39 @@ import java.util.*
 private val r = SecureRandom()
 private val p = BigInteger.probablePrime(1024, r)
 private val q = BigInteger.probablePrime(1024, r)
-private val pq = p.subtract(BigInteger.ONE).multiply(q.subtract(BigInteger.ONE))
+private val φ = p.subtract(BigInteger.ONE).multiply(q.subtract(BigInteger.ONE))
 
-public val n = p.multiply(q)
+public val pq = p.multiply(q)
 public var e = BigInteger.valueOf(3)
 
 fun main(args: Array<String>) {
-  while (pq.gcd(e).compareTo(BigInteger.ONE) > 0)
+  while (φ.gcd(e).compareTo(BigInteger.ONE) > 0)
     e = e.add(BigInteger.valueOf(2))
 
-  val s = encrypt("Hello world")
-  println(s)
+  println("Public key: " + pq)
+  val s = encrypt("this is a very difficult message to brute force")
+  println("Ciphertext: " + s)
 
   val d = decrypt(s)
-  println(d)
+  println("Decrypted:  " + d)
 }
 
-fun encrypt(plaintext: String): String {
+internal fun encrypt(plaintext: String): String {
   return String(
     Base64
       .getEncoder()
       .encode(
         BigInteger(plaintext.toByteArray())
-          .modPow(e, n)
+          .modPow(e, pq)
           .toByteArray()))
 }
 
-fun decrypt(ciphertext: String): String {
+internal fun decrypt(ciphertext: String): String {
   return String(
     BigInteger(
       Base64
         .getDecoder()
         .decode(ciphertext))
-      .modPow(e.modInverse(pq), n)
+      .modPow(e.modInverse(φ), pq)
       .toByteArray())
 }

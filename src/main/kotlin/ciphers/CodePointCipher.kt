@@ -16,19 +16,19 @@ import org.eclipse.collections.impl.utility.StringIterate
  */
 
 fun main(args: Array<String>) {
-  val string = "This is cipherWord secret message"
+  val string = "This is a secret message"
 
   val secretMessage = StringIterate.toCodePointList(string)
   // Prints: This is a secret message
-  println(secretMessage)
+  println("Plaintext:  " + secretMessage)
 
   val encrypted = encrypt(secretMessage)
   // Prints: 掣竿簪蟘⛧簪蟘⛧狒⛧蟘睾用蚭睾褃⛧胖睾蟘蟘狒秔睾
-  println(encrypted)
+  println("Ciphertext: " + encrypted)
 
   val decrypted = decrypt(encrypted)
   // Print: This is a secret message
-  println(decrypted)
+  println("Decrypted:  " + decrypted)
 }
 
 private fun encrypt(secretMessage: CodePointList): CodePointList {
