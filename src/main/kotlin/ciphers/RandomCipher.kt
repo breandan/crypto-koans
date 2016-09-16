@@ -1,7 +1,7 @@
 package ciphers
 
+import org.eclipse.collections.impl.bimap.mutable.HashBiMap
 import java.security.SecureRandom
-import java.util.*
 
 /**
  * The random cipher, or mixed alphabet cipher, maps each letter in the
@@ -13,15 +13,19 @@ import java.util.*
 fun main(args: Array<String>) {
   val message = "four score and seven years ago our fathers".toLowerCase()
 
-  println(encrypt(message))
+  println("Plaintext:  " + message)
+  val ciphertext = encrypt(message)
+  println("Ciphertext: " + ciphertext)
+  println("Decrypted:  " + decrypt(ciphertext))
 }
 
-private fun encrypt(message: String): String {
+val cipher = HashBiMap<Char, Char>()
+
+private fun encrypt(plaintext: String): String {
   val random = SecureRandom()
-  val cipher = HashMap<Char, Char>()
   var uniqueCharacters = ""
 
-  for (c in message.toCharArray())
+  for (c in plaintext.toCharArray())
     if (Character.isLetterOrDigit(c) && !uniqueCharacters.contains(c + ""))
       uniqueCharacters += c
 
@@ -34,8 +38,8 @@ private fun encrypt(message: String): String {
   }
 
   val sb = StringBuilder()
-  for (i in 0..message.length - 1) {
-    val c = message[i]
+  for (i in 0..plaintext.length - 1) {
+    val c = plaintext[i]
     if (cipher.containsKey(c))
       sb.append(cipher[c])
     else
@@ -43,4 +47,14 @@ private fun encrypt(message: String): String {
   }
 
   return sb.toString()
+}
+
+private fun decrypt(ciphertext: String): String {
+  val message = StringBuilder()
+
+  for (c in ciphertext) {
+    message.append(cipher.inverse().getIfAbsent(c, {' '}))
+  }
+
+  return message.toString()
 }
