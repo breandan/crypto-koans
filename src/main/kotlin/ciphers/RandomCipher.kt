@@ -19,7 +19,7 @@ fun main(args: Array<String>) {
   println("Decrypted:  " + decrypt(ciphertext))
 }
 
-val cipher = HashBiMap<Char, Char>()
+private val cipher = HashBiMap<Char, Char>()
 
 private fun encrypt(plaintext: String): String {
   val random = SecureRandom()
@@ -53,7 +53,7 @@ private fun decrypt(ciphertext: String): String {
   val message = StringBuilder()
 
   for (c in ciphertext) {
-    message.append(cipher.inverse().getIfAbsent(c, {' '}))
+    message.append(cipher.inverse().getIfAbsentValue(c, c))
   }
 
   return message.toString()

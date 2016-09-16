@@ -3,8 +3,7 @@ package ciphers
 import java.security.SecureRandom
 
 /**
- * A one-time pad mixes the ciphertext with a long random key. Never use this
- * key twice!
+ * An OTP mixes the ciphertext with a long random key. Never use this key twice!
  */
 
 val secureRandom = SecureRandom()
