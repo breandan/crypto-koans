@@ -1,52 +1,54 @@
-package ciphers
+package exercises
 
 import org.eclipse.collections.impl.bimap.mutable.HashBiMap
-import exercises.prompt
 
 private val cipher = HashBiMap<Char, Char>()
 
 fun main(args: Array<String>) {
   var alphabet = "etaoinshrdlcumwfgypbvkjxqz"
   do {
-    val message = prompt("Enter a new message: ")
+    val msg = prompt("Enter a new message: ")
 
     do {
-      println("Encrypted message:   " + encrypt(message))
+      println("Encrypted message:   " + encrypt(msg))
       println("Cipher key: " + cipher)
       println()
-      println("Unencrypted letters: " +
-        message.filter { !cipher.containsKey(it) }
+      println("Unencrypted letters:  " +
+        msg.filter { !cipher.containsKey(it) && it.isLetterOrDigit() }
           .toCharArray()
           .distinct()
           .joinToString(""))
       println("Unassigned alphabet:  " + alphabet)
       val reps = prompt("Enter replacement: ")
 
-      var a = reps.find { message.contains(it) && it.isLetter() }
+      var a = reps.find { (msg.contains(it) || msg.isEmpty()) && it.isLetterOrDigit() }
+      var c = reps;
       while (a != null) {
-        val b = reps.replace(a.toString(), "").find {
-          it.isLetter()
-        }
+        val b = c.replace(a.toString(), "").find { it.isLetterOrDigit() }
 
         if (b != null) {
-          if(cipher.inverse().containsKey(b))
+          if (cipher.inverse().containsKey(b)) {
+            println("Evicting " + a + b)
             cipher.remove(a)
+          }
           cipher.put(a, b)
           alphabet = alphabet.replace(b.toString(), "")
         }
 
-        val collisions = cipher.valuesView().filter { message.contains(it) &&
-          !cipher.containsKey(it) }
-        if(collisions.isNotEmpty()) {
+        val collisions = cipher.valuesView().filter {
+          msg.contains(it) && !cipher.containsKey(it)
+        }
+        if (collisions.isNotEmpty() && c.isEmpty()) {
           println("To assign: " + collisions)
           println("(Decryption will fail unless you reassign these letters!)")
         }
 
-        val c = reps.replace(a.toString(), "").replace(b.toString(), "")
-        a = c.find { message.contains(it) && !cipher.containsKey(it) }
+        c = c.replaceFirst(a.toString(), "")
+          .replaceFirst(b.toString(), "")
+        a = c.find { (msg.contains(it) || msg.isEmpty()) && it.isLetterOrDigit() }
       }
     } while (!reps.isEmpty() && !alphabet.isEmpty())
-  } while (message.isNotEmpty())
+  } while (msg.isNotEmpty())
 }
 
 private fun encrypt(plaintext: String): String {
@@ -54,8 +56,6 @@ private fun encrypt(plaintext: String): String {
 }
 
 private fun decrypt(ciphertext: String): String {
-  return ciphertext.map {
-    cipher.inverse().getIfAbsentValue(it,
-      it)
-  }.joinToString("")
+  return ciphertext.map { cipher.inverse().getIfAbsentValue(it, it) }
+    .joinToString("")
 }
