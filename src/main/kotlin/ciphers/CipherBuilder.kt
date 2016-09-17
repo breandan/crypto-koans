@@ -1,7 +1,7 @@
 package ciphers
 
 import org.eclipse.collections.impl.bimap.mutable.HashBiMap
-import prompt
+import exercises.prompt
 
 private val cipher = HashBiMap<Char, Char>()
 
