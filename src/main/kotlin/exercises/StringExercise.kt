@@ -1,5 +1,6 @@
 package exercises
 
+import java.awt.Toolkit
 import java.math.BigInteger
 
 fun main(args: Array<String>) {
@@ -12,10 +13,10 @@ fun main(args: Array<String>) {
 
   val c = prompt("\n\nIf you type some characters, I'll tell you the numbers: ")
   c.trim().toByteArray().forEach {
-    print("'" + it.toChar() + "'→" + it.toString() + ", ")
+    print("'" + it.toChar() + "'→" + it + ", ")
   }
 
-  prompt("We can also treat strings of characters as (large) numbers.")
+  prompt("\n\nWe can also treat strings of characters as (large) numbers.")
 
   var s = prompt("What's your name? ")
   if (s.isEmpty()) {
@@ -45,9 +46,14 @@ fun main(args: Array<String>) {
     }
   }
 
-  println()
-  println()
-  println("It all depends on how you choose to interpret the data.")
+  println("\n\nOr as a sound: \n")
+  for (it in bin)
+    if (it == '0')
+      Thread.sleep(200)
+    else
+      Toolkit.getDefaultToolkit().beep()
+
+  prompt("It all depends how you choose to represent (and interpret) the data.")
 }
 
 fun prompt(s: String = ""): String {
