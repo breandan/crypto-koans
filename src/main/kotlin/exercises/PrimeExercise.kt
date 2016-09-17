@@ -36,14 +36,14 @@ fun main(args: Array<String>) {
   }
 
   println("Factoring large numbers...")
-  var totalTime = BigInteger.ZERO
+  var total = BigInteger.ZERO
   for (i in Int.MAX_VALUE downTo Int.MAX_VALUE - 10000) {
     val startTime = System.nanoTime()
     val factors = factor(i)
-    totalTime = totalTime.add(BigInteger.valueOf(System.nanoTime().minus(startTime)))
+    total = total.add(BigInteger.valueOf(System.nanoTime().minus(startTime)))
     if (factors.size.equals(2) || factors.size > 20)
       println(factors)
   }
 
-  println("Average time: " + totalTime.divide(BigInteger.valueOf(10000)) + "ns")
+  println("Average time: " + total.divide(BigInteger.valueOf(10000)) + "ns")
 }
