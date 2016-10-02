@@ -10,7 +10,7 @@ fun main(args: Array<String>) {
   val decrypted = decrypt(ciphertext)
   println("Decrypted:\t" + decrypted)
 
-  if (decrypted.equals(plaintext))
+  if (decrypted == plaintext)
     println("Decryption succeeded!")
   else
     println("Decryption failure!")

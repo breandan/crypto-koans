@@ -1,25 +1,43 @@
 package exercises
 
+import java.math.BigDecimal
 import java.math.BigInteger
 import java.util.*
 
+private val primes = HashSet<Int>()
 private fun isPrime(number: Int): Boolean {
+
   // Your code goes here
 
   return true
 }
 
 private fun factor(number: Int): Collection<Int> {
-  val primeFactors = ArrayList<Int>()
+  val primeFactors = LinkedList<Int>()
 
-  // Your code goes here
+  primeFactors.push(number)
+  while (!isPrime(primeFactors.first)) {
+    val candidate = primeFactors.remove()
+    for (i in 2..sqrt(number))
+      if (isPrime(i) && candidate % i == 0) {
+        primeFactors.push(i)
+        primeFactors.push(candidate / i)
+        break
+      }
+  }
 
   return primeFactors
+}
+
+private fun sqrt(number: Int): Int {
+  return Math.sqrt(number.toDouble()).toInt()
 }
 
 fun main(args: Array<String>) {
   // Filter for all integers from 1 to 100 and keep if primes
   val primes = (1..100).filter { isPrime(it) }
+
+  println("Prime numbers between 1 and 100:")
 
   // Print out the primes we have found
   var index = 0
@@ -35,15 +53,24 @@ fun main(args: Array<String>) {
     index++
   }
 
-  println("Factoring large numbers...")
-  var total = BigInteger.ZERO
-  for (i in Int.MAX_VALUE downTo Int.MAX_VALUE - 10000) {
-    val startTime = System.nanoTime()
-    val factors = factor(i)
-    total = total.add(BigInteger.valueOf(System.nanoTime().minus(startTime)))
-    if (factors.size.equals(2) || factors.size > 20)
-      println(factors)
+  println("\n\nFactoring large numbers...")
+  var total = BigDecimal.ZERO
+  val rounds = 100L
+  for (i in Int.MAX_VALUE downTo Int.MAX_VALUE - rounds) {
+    val startTime = BigDecimal.valueOf(System.nanoTime())
+    val factors = factor(i.toInt())
+    total = total.add(BigDecimal.valueOf(System.nanoTime()).minus(startTime))
+
+    val firstFactor = factors.first().toLong()
+    if(!BigInteger.valueOf(firstFactor).isProbablePrime(100)) {
+      println("You said $firstFactor is prime, but $firstFactor is not prime.")
+      println("Please try again! Terminating...")
+      System.exit(0)
+    }
+    if (Math.random() < 0.1)
+      println("$i=>$factors")
   }
 
-  println("Average time: " + total.divide(BigInteger.valueOf(10000)) + "ns")
+  val averageTime = total.divide(BigDecimal.valueOf(rounds * 1000))
+  println("Average time: $averageTime μs")
 }

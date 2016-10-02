@@ -14,7 +14,7 @@ public val pq = p.multiply(q)
 public var e = BigInteger.valueOf(3)
 
 fun main(args: Array<String>) {
-  while (φ.gcd(e).compareTo(BigInteger.ONE) > 0)
+  while (φ.gcd(e) > BigInteger.ONE)
     e = e.add(BigInteger.valueOf(2))
 
   println("Public key: " + pq)
@@ -35,7 +35,7 @@ private fun encrypt(plaintext: String): String {
 private fun decrypt(ciphertext: String): String {
   val c = Base64.getDecoder().decode(ciphertext)
   // ed = 1 (mod φ)
-  // val d = e.modInverse(φ)
+//   val d = e.modInverse(φ)
   val d = BigInteger.valueOf(modInverse(e.toLong(), φ.toLong()))
   println(d)
   // C^d (mod pq)

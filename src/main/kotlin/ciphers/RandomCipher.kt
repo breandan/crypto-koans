@@ -50,11 +50,5 @@ private fun encrypt(plaintext: String): String {
 }
 
 private fun decrypt(ciphertext: String): String {
-  val message = StringBuilder()
-
-  for (c in ciphertext) {
-    message.append(cipher.inverse().getIfAbsentValue(c, c))
-  }
-
-  return message.toString()
+  return ciphertext.map { cipher.inverse().getIfAbsentValue(it, it) }.joinToString("")
 }

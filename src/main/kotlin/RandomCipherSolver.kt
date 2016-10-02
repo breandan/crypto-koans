@@ -13,9 +13,9 @@ fun main(args: Array<String>) {
     lines.add(sc.nextLine())
   }
 
-  val patternDict: MutableMultimap<String, String> = FastListMultimap.newMultimap()
+  val patterns: MutableMultimap<String, String> = FastListMultimap.newMultimap()
   lines.forEach {
-    patternDict.put(convertWordToPattern(it), it)
+    patterns.put(convertWordToPattern(it), it)
   }
 
   sc = Scanner(File("src/main/resources/ciphertext"))
@@ -26,7 +26,7 @@ fun main(args: Array<String>) {
   while (sc.hasNext()) {
     val s = sc.next()
     if (!d.containsKey(s))
-      d.putAll(s, patternDict.get(convertWordToPattern(s)))
+      d.putAll(s, patterns.get(convertWordToPattern(s)))
     sb.append(s + " ")
   }
 
