@@ -40,9 +40,7 @@ private fun getShiftChar(isogram: String, c: Char, shift: Int): Char {
   val charIndex = isogram.indexOf(c + "")
 
   if (0 <= charIndex) {
-    val shiftCharIndex = (charIndex + shift) % isogram.length
-    val shiftChar = isogram[shiftCharIndex]
-    return shiftChar
+    return isogram[(charIndex + shift) % isogram.length]
   }
 
   return c

@@ -1,7 +1,9 @@
 package ciphers
 
+import org.eclipse.collections.impl.bag.mutable.HashBag
 import org.eclipse.collections.impl.bimap.mutable.HashBiMap
 import java.security.SecureRandom
+import java.util.*
 
 /**
  * The random cipher, or mixed alphabet cipher, maps each letter in the
@@ -10,7 +12,12 @@ import java.security.SecureRandom
  * referred to as a "monoalphabetic substitution cipher".
  */
 
+private val cipher = LinkedHashSet<Char>()
+
 fun main(args: Array<String>) {
+  val random = SecureRandom()
+  cipher.addAll(('a'..'z').foldIndexed(arrayListOf<Char>(),
+    { idx, list, c -> list.add(random.nextInt(idx + 1), c); list }))
   val message = "four score and seven years ago our fathers".toLowerCase()
 
   println("Plaintext:  " + message)
@@ -19,36 +26,15 @@ fun main(args: Array<String>) {
   println("Decrypted:  " + decrypt(ciphertext))
 }
 
-private val cipher = HashBiMap<Char, Char>()
 
 private fun encrypt(plaintext: String): String {
-  val random = SecureRandom()
-  var uniqueCharacters = ""
-
-  for (c in plaintext.toCharArray())
-    if (Character.isLetterOrDigit(c) && !uniqueCharacters.contains(c + ""))
-      uniqueCharacters += c
-
-  // Map each letter to a random letter in the alphabet (n.b. one-to-one)
-  var alphabet = "abcdefghijklmnopqrstuvwxyz"
-  for (c in uniqueCharacters.toCharArray()) {
-    val x = alphabet[random.nextInt(alphabet.length)]
-    cipher.put(c, x)
-    alphabet = alphabet.replace(x + "", "")
-  }
-
-  val sb = StringBuilder()
-  for (i in 0..plaintext.length - 1) {
-    val c = plaintext[i]
-    if (cipher.containsKey(c))
-      sb.append(cipher[c])
-    else
-      sb.append(c)
-  }
-
-  return sb.toString()
+  return plaintext.map { getShiftChar(it, 1) }.joinToString("")
 }
 
 private fun decrypt(ciphertext: String): String {
-  return ciphertext.map { cipher.inverse().getIfAbsentValue(it, it) }.joinToString("")
+  return ciphertext.map { getShiftChar(it, -1) }.joinToString("")
+}
+
+private fun getShiftChar(c: Char, i: Int): Char {
+  return cipher.elementAt(Math.floorMod(cipher.indexOf(c) + i, cipher.size))
 }

@@ -4,7 +4,7 @@ import org.eclipse.collections.impl.multimap.list.FastListMultimap
 import java.io.File
 import java.util.*
 
-private val d: MutableMultimap<String, String> = FastListMultimap.newMultimap()
+private val possibleWords = FastListMultimap.newMultimap<String, String>()
 
 fun main(args: Array<String>) {
   var sc = Scanner(File("src/main/resources/google-10000-english.txt"))
@@ -13,7 +13,7 @@ fun main(args: Array<String>) {
     lines.add(sc.nextLine())
   }
 
-  val patterns: MutableMultimap<String, String> = FastListMultimap.newMultimap()
+  val patterns = FastListMultimap.newMultimap<String, String>()
   lines.forEach {
     patterns.put(convertWordToPattern(it), it)
   }
@@ -25,8 +25,8 @@ fun main(args: Array<String>) {
 
   while (sc.hasNext()) {
     val s = sc.next()
-    if (!d.containsKey(s))
-      d.putAll(s, patterns.get(convertWordToPattern(s)))
+    if (!possibleWords.containsKey(s))
+      possibleWords.putAll(s, patterns.get(convertWordToPattern(s)))
     sb.append(s + " ")
   }
 
@@ -36,7 +36,7 @@ fun main(args: Array<String>) {
   pairwise()
 
   ciphertext.split(" ").filter { !it.isEmpty() }.forEach {
-    println(d.get(it).toString() + " -> (" + it + ")")
+    println(possibleWords.get(it).toString() + " -> (" + it + ")")
   }
 }
 
@@ -65,20 +65,18 @@ fun main(args: Array<String>) {
 
 fun pairwise() {
   var lastDictionarySize = 0
-  val candidates: HashBagMultimap<Char, Char> = HashBagMultimap.newMultimap()
+  val candidates = HashBagMultimap.newMultimap<Char, Char>()
 
-  for (i in 'a'..'z') {
-    for (j in 'a'..'z') {
+  for (i in 'a'..'z')
+    for (j in 'a'..'z')
       candidates.put(i, j)
-    }
-  }
 
-  while (d.size() != lastDictionarySize) {
-    lastDictionarySize = d.size()
-    for (entry in d.keyMultiValuePairsView()) {
+  while (possibleWords.size() != lastDictionarySize) {
+    lastDictionarySize = possibleWords.size()
+    for (entry in possibleWords.keyMultiValuePairsView()) {
       val token = entry.one
-      val impossibleWords: HashSet<String> = HashSet()
-      val seen: HashBagMultimap<Char, Char> = HashBagMultimap.newMultimap()
+      val impossibleWords = HashSet<String>()
+      val seen = HashBagMultimap.newMultimap<Char, Char>()
 
       for (word in entry.two) {
         for (i in 0..word.length - 1) {
@@ -94,16 +92,17 @@ fun pairwise() {
       // Filter letter map against all possible letter mappings
       seen.forEachKeyMultiValues { cipherLetter, newChars ->
         candidates.putAll(cipherLetter,
-          candidates.removeAll(cipherLetter).intersect(newChars))
+          candidates.removeAll(cipherLetter)
+            .intersect(newChars))
       }
 
       // Discard all impossible words
       impossibleWords.forEach { word ->
-        d.remove(token, word)
+        possibleWords.remove(token, word)
 
         // Try to solve for proper nouns, but let's indicate with CAPS
-        if (d[token].isEmpty)
-          d.put(token,
+        if (possibleWords[token].isEmpty)
+          possibleWords.put(token,
             token.map { candidates[it].first().toUpperCase() }.joinToString(""))
       }
     }
@@ -111,9 +110,6 @@ fun pairwise() {
 }
 
 private fun convertWordToPattern(word: String): String {
-  val letters: HashMap<Char, Char> = HashMap()
-
-  return word.map {
-    letters.computeIfAbsent(it, { 'a' + letters.size })
-  }.joinToString("")
+  val m = HashMap<Char, Char>()
+  return word.map { m.computeIfAbsent(it, { 'a' + m.size }) }.joinToString("")
 }

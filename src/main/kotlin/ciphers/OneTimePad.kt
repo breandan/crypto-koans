@@ -6,18 +6,18 @@ import java.security.SecureRandom
  * An OTP mixes the ciphertext with a long random key. Never use this key twice!
  */
 
-val secureRandom = SecureRandom()
-val ALPHABET_SIZE = 94 //ASCII 32 - 126
-val PAD_SIZE = 100
+private val secureRandom = SecureRandom()
+private val ALPHABET_SIZE = 94 //ASCII 32 - 126
+private val PAD_SIZE = 100
 
 fun main(args: Array<String>) {
   val message = "Meet me at secret location at noon on Wednesday."
+  println("Plaintext:    " + message)
 
   // Generate secure random key (never reuse this)
   val pad = ByteArray(PAD_SIZE)
   secureRandom.nextBytes(pad)
-  println("One time pad: " + pad.map { getShiftChar(0.toChar(), it) }
-    .joinToString(""))
+  println("One time pad: " + pad.map { getShiftChar(0.toChar(), it) } .joinToString(""))
 
   val ciphertext = encrypt(message, pad)
   println("Ciphertext:   " + ciphertext)
@@ -29,23 +29,12 @@ fun main(args: Array<String>) {
 
 private fun encrypt(plaintext: String, pad: ByteArray): String {
   // Combine the key with the plaintext
-  val ciphertext = CharArray(pad.size)
-  for (i in 0..pad.size - 1) {
-    if (i < plaintext.length)
-      ciphertext[i] = getShiftChar(plaintext[i], pad[i])
-    else
-      ciphertext[i] = getShiftChar(' ', pad[i])
-  }
-  return String(ciphertext)
+  return plaintext.mapIndexed { i, c -> getShiftChar(c, pad[i]) }.joinToString("")
 }
 
 private fun decrypt(ciphertext: String, pad: ByteArray): String {
   // Separate the key from the ciphertext
-  val decrypted = CharArray(pad.size)
-  for (i in 0..pad.size - 1) {
-    decrypted[i] = getShiftChar(ciphertext[i], (-pad[i]).toByte())
-  }
-  return String(decrypted)
+  return ciphertext.mapIndexed { i, c -> getShiftChar(c, (-pad[i]).toByte()) }.joinToString("")
 }
 
 private fun getShiftChar(c: Char, shift: Byte): Char {

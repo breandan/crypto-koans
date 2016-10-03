@@ -6,9 +6,9 @@ import java.math.BigInteger
 fun main(args: Array<String>) {
   prompt("In programming, we often treat characters as numbers. For example:")
 
-  (33..126).forEachIndexed { i, it ->
+  ('!'..'~').forEachIndexed { i, it ->
     if ((i + 1) % 8 == 0) println()
-    print("" + it.toChar() + "\t→\t" + it.toInt() + "\t|\t")
+    print("" + it + "\t→\t" + it.toInt() + "\t|\t")
   }
 
   val c = prompt("\n\nIf you type some characters, I'll tell you the numbers: ")
