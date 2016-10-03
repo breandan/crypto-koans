@@ -1,4 +1,3 @@
-import org.eclipse.collections.api.multimap.MutableMultimap
 import org.eclipse.collections.impl.multimap.bag.HashBagMultimap
 import org.eclipse.collections.impl.multimap.list.FastListMultimap
 import java.io.File
@@ -14,9 +13,7 @@ fun main(args: Array<String>) {
   }
 
   val patterns = FastListMultimap.newMultimap<String, String>()
-  lines.forEach {
-    patterns.put(convertWordToPattern(it), it)
-  }
+  lines.forEach { patterns.put(convertWordToPattern(it), it) }
 
   sc = Scanner(File("src/main/resources/ciphertext"))
   sc.useDelimiter(" ")
@@ -63,7 +60,7 @@ fun main(args: Array<String>) {
  * approximate the plaintext message.
  */
 
-fun pairwise() {
+private fun pairwise() {
   var lastDictionarySize = 0
   val candidates = HashBagMultimap.newMultimap<Char, Char>()
 

@@ -3,7 +3,6 @@ package exercises
 import org.eclipse.collections.impl.bag.mutable.HashBag
 import java.io.File
 import java.util.*
-import java.util.regex.Pattern
 
 private val riddle = "jung qb lbh pnyy na nyyvtngbe jrnevat n irfg?"
 private val answer = "vi diqznodbvojm!"
