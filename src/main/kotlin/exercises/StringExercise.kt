@@ -2,62 +2,88 @@ package exercises
 
 import java.awt.Toolkit
 import java.math.BigInteger
+import java.util.*
 
 fun main(args: Array<String>) {
+  prompt("Press [ENTER] to continue...")
+  prompt("In this exercise, we'll learn to represent text in different ways.")
   prompt("In programming, we often treat characters as numbers. For example:")
 
   ('!'..'~').forEachIndexed { i, it ->
     if ((i + 1) % 8 == 0) println()
     print("" + it + "\t→\t" + it.toInt() + "\t|\t")
   }
+  println()
 
-  val c = prompt("\n\nIf you type some characters, I'll tell you the numbers: ")
-  c.trim().toByteArray().forEach {
-    print("'" + it.toChar() + "'→" + it + ", ")
-  }
-
-  prompt("\n\nWe can also treat strings of characters as (large) numbers.")
-
-  var s = prompt("What's your name? ")
+  var s = prompt("\n\nIf you type your name below, I'll convert it:\n\n")
   if (s.isEmpty()) {
     s = "Thomas"
-    print("Let's say your name is '$s'. ")
+    println("Let's say your name is '$s'.\n")
   }
 
-  val integer = BigInteger(s.toByteArray())
+  println(" ________________________________ ")
+  println("| Character | Decimal | Binary   |")
+  println("|-----------|---------|----------|")
+  s.trim().toByteArray().forEach {
+    val ci = byte(it)
+    val char = it.toChar().toString().padStart(6).padEnd(11)
+    val decimal = it.toString().padStart(6).padEnd(9)
+    val binary = ci.toString(2).padStart(8,'0').padStart(9).padEnd(10)
+    print("|" + char + "|" + decimal)
+    print("|" + binary + "|\n")
+  }
 
-  prompt("'$s' can be encoded as a decimal number: " + integer.toString())
+  println(" ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ")
+  prompt("\n\nWe can also treat strings of characters as (large) numbers.")
 
-  prompt("We can represent the same number in binary: " + integer.toString(2))
 
-  prompt("Or in octal (base-8): " + integer.toString(8))
+  val asInt = BigInteger(s.toByteArray())
+  val bin = asInt.toByteArray().map { byte(it).toString(2).padStart(8, '0') }
+    .joinToString(" ")
 
-  prompt("Or in hexadecimal (base-16): " + integer.toString(16))
+
+  prompt("We can represent '$s' in binary: " + bin.padStart(8, '0'))
+
+  prompt("'$s' can be encoded as a decimal number: " + asInt.toString())
+
+  prompt("Or in octal (base-8): " + asInt.toString(8))
+
+  prompt("Or in hexadecimal (base-16): " + asInt.toString(16))
 
   println("Or as a bitmap image:\n")
-  val bin = integer.toString(2)
+  val bit = asInt.toString(2)
 
-  bin.forEachIndexed { i, it ->
-    val sqrt = Math.ceil(Math.sqrt(bin.length.toDouble()))
-    if (i <= bin.length) {
+  bit.forEachIndexed { i, it ->
+    val sqrt = Math.ceil(Math.sqrt(bit.length.toDouble()))
+    if (i <= bit.length) {
       if (it == '0') print("   ") else print(" █ ")
       if ((i + 1).mod(sqrt.toInt()) == 0)
         println()
     }
   }
 
-  println("\n\nOr as a sound: \n")
-  for (it in bin)
-    if (it == '0')
-      Thread.sleep(200)
-    else
+  prompt("\n\n\nOr as a sound:")
+  for (it in bit)
+    if (it == '0') {
+      Thread.sleep(100)
+      print(' ')
+    }
+    else {
       Toolkit.getDefaultToolkit().beep()
+      print('♪')
+    }
 
-  prompt("It all depends how you choose to represent (and interpret) the data.")
+  println("\n\n")
+  println("It all depends how you choose to represent (and interpret) the " +
+    "data.")
+}
+
+fun byte(vararg bytes: Byte) : BigInteger {
+  return BigInteger(bytes)
 }
 
 fun prompt(s: String = ""): String {
-  print(s)
+  println(s)
   val c = readLine().orEmpty()
   if (c.contains(0.toChar()))
     System.exit(0)
