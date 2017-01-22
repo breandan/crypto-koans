@@ -7,7 +7,7 @@ Here we demonstrate some simple ciphers and how to break them. This repository c
 * [Mixed alphabet (random) cipher](http://crypto.interactive-maths.com/mixed-alphabet-cipher.html)
 * [One-time pad](https://en.wikipedia.org/wiki/One-time_pad)
 
-Exercises can be compiled and run using [Maven](https://maven.apache.org/), or with [IntelliJ IDEA](https://www.jetbrains.com/idea/).
+Exercises can be compiled and run using [Gradle](https://gradle.org/), or with [IntelliJ IDEA](https://www.jetbrains.com/idea/).
 
 ## Building
 
