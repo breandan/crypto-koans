@@ -36,8 +36,8 @@ private fun decrypt(ciphertext: String): String {
   val c = Base64.getDecoder().decode(ciphertext)
 
   // ed = 1 (mod φ)
-   val d = e.modInverse(φ)
-//  val d = BigInteger.valueOf(modInverse(e.toLong(), φ.toLong()))
+//   val d = e.modInverse(φ)
+  val d = BigInteger.valueOf(modInverse(e.toLong(), φ.toLong()))
 
   println(d)
   // C^d (mod pq)
@@ -54,7 +54,6 @@ private fun modInverse(a: Long, m: Long): Long {
   var one = 1L
 
   // Your code goes here
-
 
   return x
 }
