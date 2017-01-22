@@ -1,4 +1,4 @@
-package exercises
+package extras
 
 fun main(args: Array<String>) {
 

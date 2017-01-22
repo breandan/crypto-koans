@@ -33,8 +33,7 @@ fun main(args: Array<String>) {
   }
 
   println(" ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ")
-  prompt("\n\nWe can also treat strings of characters as (large) numbers.")
-
+  prompt("\nWe can also treat strings of characters as (large) numbers.")
 
   val asInt = BigInteger(s.toByteArray())
   val bin = asInt.toByteArray().map { byte(it).toString(2).padStart(8, '0') }

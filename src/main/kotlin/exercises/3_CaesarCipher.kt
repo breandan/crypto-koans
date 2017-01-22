@@ -32,4 +32,3 @@ private fun getShiftChar(c: Char, shift: Int): Char {
   val i = (z + 97).toChar()
   return i
 }
-

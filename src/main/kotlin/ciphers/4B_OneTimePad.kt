@@ -27,6 +27,7 @@ fun main(args: Array<String>) {
   println(Byte.MAX_VALUE.toChar())
 }
 
+
 private fun encrypt(plaintext: String, pad: ByteArray): String {
   // Combine the key with the plaintext
   return plaintext.mapIndexed { i, c -> getShiftChar(c, pad[i]) }.joinToString("")

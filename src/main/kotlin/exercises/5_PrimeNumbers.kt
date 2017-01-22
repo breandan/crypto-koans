@@ -52,7 +52,7 @@ fun main(args: Array<String>) {
   val rounds = 100
   for (i in Int.MAX_VALUE downTo Int.MAX_VALUE - rounds) {
     val startTime = BigDecimal.valueOf(System.nanoTime())
-    val factors = factor(i.toInt())
+    val factors = factor(i)
     total = total.add(BigDecimal.valueOf(System.nanoTime()).minus(startTime))
 
     val firstFactor = factors.first().toLong()
