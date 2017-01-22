@@ -1,58 +1,50 @@
 package exercises
 
+import org.apache.commons.lang.StringUtils
 import org.eclipse.collections.impl.bimap.mutable.HashBiMap
 
 private val cipher = HashBiMap<Char, Char>()
 
 fun main(args: Array<String>) {
-  var alphabet = "etaoinshrdlcumwfgypbvkjxqz"
+  var alphabet = "etaoinshrdlcumwfgypbvkjxqz".toUpperCase()
+  alphabet.forEach { if (cipher[it] == null) cipher.put(it, it) }
+
   do {
-    val message = prompt("Enter a new message: ")
+    val message = prompt("Enter a new message: ").toUpperCase()
 
     do {
-      println("Encrypted message:   " + encrypt(message))
-      println("Cipher key: " + cipher)
+      println("".padEnd(20 + message.length, '-'))
+      print("Encrypted message:  " + encrypt(message))
+      val ep = StringUtils.getLevenshteinDistance(encrypt(message), message).toDouble() * 100 / message.length.toDouble()
+      print(" (Message $ep% encrypted)\n")
+      print("Decrypted message:  " + decrypt(encrypt(message)))
+      if(decrypt(encrypt(message)) != message) {
+        print(" (Does not match plaintext!)")
+      } else {
+        print(" (Matches the plaintext!)")
+      }
+      println()
+      println("Plaintext message:  " + message)
+      println("Cipher key: " + cipher.filter { e: Map.Entry<Char, Char> -> e.key != e.value })
+      println("".padEnd(20 + message.length, '-'))
       println()
       println("Unencrypted letters: " +
-        message.filter { !cipher.containsKey(it) && it.isLetterOrDigit() }
-          .toCharArray()
-          .distinct()
-          .joinToString(""))
-      println("Unassigned alphabet:  " + alphabet)
-      val reps = prompt("Enter replacement: ")
+        cipher.filter { e: Char -> cipher[e] == e }.joinToString("").toUpperCase())
+      println("Unassigned letters:  " + alphabet)
+      var replace = prompt("Enter a letter to replace: ").filter(Char::isLetterOrDigit).firstOrNull() ?: break
+      var replacement = prompt("Enter letter that \"${replace.toUpperCase()}\" should be replaced with: ").filter(Char::isLetterOrDigit).firstOrNull() ?: break
+      replace = replace.toUpperCase()
+      replacement = replacement.toUpperCase()
 
-      var a = reps.find(function(message))
-      var c = reps
-      while (a != null) {
-        val b = c.replace(a.toString(), "").find { it.isLetterOrDigit() }
-
-        if (b != null) {
-          if (cipher.containsValue(b)) {
-            println("Evicting " + b)
-            cipher.inverse().remove(b)
-          }
-          cipher.put(a, b)
-          alphabet = alphabet.replace(b.toString(), "")
-        }
-
-        val collisions = cipher.valuesView().filter {
-          message.contains(it) && !cipher.containsKey(it)
-        }
-
-        if (collisions.isNotEmpty() && c.isEmpty()) {
-          println("To assign: " + collisions)
-          println("(Decryption will fail unless you reassign these letters!)")
-        }
-
-        c = c.replaceFirst(a.toString(), "").replaceFirst(b.toString(), "")
-        a = c.find(function(message))
+      if(cipher.containsValue(replacement)) {
+        cipher.remove(cipher.inverse()[replacement])
       }
-    } while (!reps.isEmpty() && !alphabet.isEmpty())
-  } while (message.isNotEmpty())
-}
 
-private fun function(msg: String): (Char) -> Boolean = {
-  (msg.contains(it) || msg.isEmpty()) && it.isLetterOrDigit()
+      println("Replacing \"${replace}\"s in plaintext with \"${replacement}\"s")
+      cipher.put(replace, replacement)
+      alphabet.replace(replace.toString(), "")
+    } while (!alphabet.isEmpty())
+  } while (message.isNotEmpty())
 }
 
 private fun encrypt(plaintext: String): String {

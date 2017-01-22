@@ -2,7 +2,6 @@ package exercises
 
 import java.awt.Toolkit
 import java.math.BigInteger
-import java.util.*
 
 fun main(args: Array<String>) {
   prompt("Press [ENTER] to continue...")
