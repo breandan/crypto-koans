@@ -20,6 +20,14 @@ fun main(args: Array<String>) {
 
   // Exercise #2: Crack the riddle!
   // Your code goes here
+
+  (0..26).forEach { key ->
+    val candidate = answer.map { c -> getShiftChar(c, key) }
+      .joinToString("")
+
+    if(dictionary.contains(candidate.split(" ")[0]))
+      println(candidate + " - " + key)
+  }
 }
 
 private fun getShiftChar(c: Char, shift: Int): Char {

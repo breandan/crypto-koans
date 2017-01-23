@@ -7,6 +7,19 @@ import java.util.*
 private val primes = HashSet<Int>()
 private fun isPrime(number: Int): Boolean {
   // Your code goes here
+
+  if (number < 2)
+    return false
+  else if (number == 2)
+    return true
+
+  (2..(Math.sqrt(number.toDouble()).toInt()))
+    .forEach { i ->
+      if (number % i == 0) {
+        return false
+      }
+    }
+
   return true
 }
 

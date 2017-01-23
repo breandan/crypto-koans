@@ -22,14 +22,14 @@ fun main(args: Array<String>) {
 
 private fun decrypt(ciphertext: String): String {
   return ciphertext
-    .replace("p", "e")
-    .replace("r", "a")
+    .replace("v", "e")
+    .replace("x", "a")
     .replace("z", "l")
 }
 
 private fun encrypt(message: String): String {
   return message
-    .replace("e", "p")
-    .replace("a", "r")
+    .replace("e", "v")
+    .replace("a", "x")
     .replace("l", "z")
 }

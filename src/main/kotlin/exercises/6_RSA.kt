@@ -54,6 +54,12 @@ private fun modInverse(a: Long, m: Long): Long {
   var one = 1L
 
   // Your code goes here
+  for(i in 0..Long.MAX_VALUE) {
+    if(((a*i) % m) == one) {
+      x = i
+      break
+    }
+  }
 
   return x
 }
