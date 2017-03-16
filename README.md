@@ -94,8 +94,8 @@ We can think of a message as a long list of numbers (or one really big number).*
 ### How safe are substitution ciphers?
 
 #### How do we communicate using ciphers?
-  * We need to agree on a common method (protocol).
-  * We need to agree on a common secret (key).
+  * We need to agree on a common method (*protocol*).
+  * We need to agree on a common secret (*key*).
   * How do we agree on a common secret? Back to square one.
 
 #### What are the risks of using this kind of cipher?
