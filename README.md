@@ -108,8 +108,53 @@ We can think of a message as a long list of numbers (or one really big number).*
 #### Why are substitution ciphers dangerous?
 If someone learns a plaintext-ciphertext pair they can break every message.
 
+#### Small keys are easy to guess.
+
 * What is the only way to guarantee an unbreakable cipher?
   * One-time pad
+
+---
+
+### How can we improve the safety of ciphers?
+
+* Use keys with longer text
+* Use keys that are difficult to guess
+
+### What is a prime number?
+
+* Prime numbers have only two factors.
+
+### What is an algorithm?
+
+* Some set of steps for a computer to take.
+
+---
+### [Exercise #4]: Computers are fast
+
+Let's calculate some prime numbers. How many can you calculate in 5 seconds?
+
+---
+
+### What makes an algorithm hard?
+
+* Numbers are easy to multiply
+* Numbers are hard to factor
+
+### What is a random number?
+
+* Can we get computers to generate random numbers?
+
+---
+### [Exercise #5](/src/main/kotlin/exercises/6_RSA.kt): RSA
+
+Turns out, we can share a secret without sharing a key.
+
+---
+
+---
+### [Exercise #6]: What is a hash function? (optional)
+
+Hash functions are cool.
 
 ---
 
