@@ -18,20 +18,12 @@
 * Do not talk about it. (Even in your sleep.)
 * Do not record it. (Even on your smartphone.)
 
-### What if you need to share the secret? How can we share a secret safely?
+### What if you need to write down your secret?
 
 #### We need to turn the secret into a message.
 * How do we write (or encode) this message?
 * How do we read (or decode) this message?
 * How do we keep our message safe?
-#### We can share the message in person.
-* How do you know you are alone?
-* Is the other person who they say they are?
-* What if your friend lives far away?
-#### We can share the message in public.
-* Strangely, this is the safest way to share a secret. Requires that we be very careful.
-* If you need to share a secret message, it’s safest to assume everyone can read it.
-* How do we prevent others who read our message from understanding the contents?
 
 ---
 ### [Exercise #1](/src/main/kotlin/exercises/4_StringExercise.kt): Let’s encode a message!
@@ -41,6 +33,17 @@ Computers often use numbers to represent characters.
 We can think of a message as a long list of numbers (or one really big number).*
 
 ---
+
+### What if you need to share your secret?
+
+#### We can share the message in person.
+* How do you know you are alone?
+* Is the other person who they say they are?
+* What if your friend lives far away?
+#### We can share the message in public.
+* Strangely, this is the safest way to share a secret. Requires that we be very careful.
+* If you need to share a secret message, it’s safest to assume everyone can read it.
+* How do we prevent those who read our message from understanding the contents?
 
 ### How can you share a secret in public without sharing the secret?
 
