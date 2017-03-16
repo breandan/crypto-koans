@@ -50,7 +50,7 @@ We can think of a message as a long list of numbers (or one really big number).*
   * What if someone finds out our hiding spot?
 
 #### We can hide the secret in plain sight
-  * This technique is called steganography.
+  * This technique is called [steganography](https://en.wikipedia.org/wiki/Steganography).
   * What happens if someone is observant?
   * What if someone learns our technique?
 
@@ -62,24 +62,25 @@ We can think of a message as a long list of numbers (or one really big number).*
 #### We can scramble up the message somehow.
   * How do we scramble or (encrypt) the message?
   * How do we unscramble or (decrypt) the message?
-  * How do we keep the message secret?
+  * How do we keep the secret safe?
 
 ---
-### Exercise #2: Let’s write a cipher!
+### [Exercise #2](/src/main/kotlin/exercises/1_SimpleCiper.kt): Let’s write a cipher!
 
-* What is a substitution cipher?
+* What is a [substitution cipher](https://en.wikipedia.org/wiki/Substitution_cipher)?
   * Substitution ciphers are (weak) encryption schemes.
-  * They work by replacing symbols and words (or Strings) with other symbols.
+  * They work by replacing symbols and words (ie. Strings) with other symbols.
   * Ciphers must be reversible (when reversed they produce the original message)
 
 * What are some substitution ciphers?
-  * Codepoint cipher
-  * Caesar cipher
-  * Isogram cipher
+  * [Codepoint cipher](/src/main/kotlin/ciphers/4A_CodePointCipher.kt)
+  * [Caesar cipher](/src/main/kotlin/exercises/3_CaesarCipher.kt)
+  * [Isogram cipher](/src/main/kotlin/ciphers/3B_IsogramCipher.kt)
 
 * What is the difference between encoding and encryption?
   * Substitution ciphers are just a fancy encoding mechanism.
   * Encryption is an encoding that is difficult to decode.
+
 ---
 
 ### How safe are substitution ciphers?
