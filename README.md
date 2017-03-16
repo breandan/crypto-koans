@@ -94,14 +94,23 @@ We can think of a message as a long list of numbers (or one really big number).*
 ### How safe are substitution ciphers?
 
 #### How do we communicate using ciphers?
-  * We need to agree on a common method (*protocol*).
-  * We need to agree on a common secret (*key*).
-  * How do we agree on a common secret? Back to square one.
+* We need to agree on a common method (*protocol*).
+* We need to agree on a common secret (*key*).
+* How do we agree on a common secret? Back to square one.
+
+#### What is a key?
+
+* A key is a way to keep others from reading your secret.
+* A key is something you know, have or are.
+  * Something you know: a password
+  * Something you have: a physical key
+  * Something you are: a fingerprint
+* A key, like a message, can be encoded as a number.
 
 #### What are the risks of using this kind of cipher?
-  * What happens if someone guesses our protocol? They still need to guess the key.
-  * What happens if someone deciphers a single message? They learn they key.
-  * What happens if someone learns our key? They can break every message.
+* What happens if someone guesses our protocol? They still need to guess the key.
+* What happens if someone deciphers a single message? They learn they key.
+* What happens if someone learns our key? They can break every message.
 
 ---
 ### [Exercise #3](/src/main/kotlin/exercises/3_CipherBreaker.kt): Let’s break a cipher!
