@@ -1,0 +1,30 @@
+buildscript {
+  ext.kotlin_version = '1.0.3'
+  repositories {
+    maven {
+      mavenCentral()
+      url 'http://dl.bintray.com/jetbrains/intellij-plugin-service'
+    }
+  }
+
+  dependencies {
+    classpath files('gradle-intellij-plugin-all-0.2.0.jar')
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+  }
+}
+
+repositories {
+  mavenCentral()
+}
+
+apply plugin: 'kotlin'
+apply plugin: 'org.jetbrains.intellij'
+
+intellij {
+  projectDirectory = project.projectDir.path
+}
+
+dependencies {
+  compile 'org.eclipse.collections:eclipse-collections-api:8.0.0'
+  compile 'org.eclipse.collections:eclipse-collections:8.0.0'
+}
