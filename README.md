@@ -96,7 +96,7 @@ We can think of a message as a long list of numbers (or one really big number).*
   * What happens if someone learns our key? They can break every message.
 
 ---
-### [Exercise #3](/src/main/kotlin/exercises/3_CipherBreaker.kt)/: Let’s break a cipher!
+### [Exercise #3](/src/main/kotlin/exercises/3_CipherBreaker.kt): Let’s break a cipher!
 #### Why are substitution ciphers dangerous?
 If someone learns a plaintext-ciphertext pair they can break every message.
 
