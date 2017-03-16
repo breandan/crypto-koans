@@ -96,11 +96,9 @@ We can think of a message as a long list of numbers (or one really big number).*
   * What happens if someone learns our key? They can break every message.
 
 ---
-### Exercise #3: Let’s break a cipher!
-Why are substitution ciphers dangerous?
-If someone learns a plaintext ciphertext
-They work by replacing symbols and words (or Strings) with other symbols.
-Ciphers must be reversible (when reversed they produce the original message)
+### [Exercise #3](/src/main/kotlin/exercises/3_CipherBreaker.kt)/: Let’s break a cipher!
+#### Why are substitution ciphers dangerous?
+If someone learns a plaintext-ciphertext pair they can break every message.
 
 * What is the only way to guarantee an unbreakable cipher?
   * One-time pad
