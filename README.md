@@ -1,6 +1,6 @@
 ## How to Share a Secret Message
 
-#### What’s a secret? Something meant to be kept unknown or unseen by others.
+### What’s a secret? Something meant to be kept unknown or unseen by others.
 
 > ***se·cret /ˈsēkrit/***
 >
@@ -12,33 +12,33 @@
 >
 > 1. something that is kept or meant to be kept unknown or unseen by others. ("a state secret")
 
-#### Let’s say you have a secret. How you make sure your secret stays secret?
+### Let’s say you have a secret. How you make sure your secret stays secret?
 
 * Do not write it down. (Even in your diary.)
 * Do not talk about it. (Even in your sleep.)
 * Do not record it. (Even on your smartphone.)
 
-#### What if you need to share the secret? How can we share a secret safely?
+### What if you need to share the secret? How can we share a secret safely?
 
-##### We need to turn the secret into a message.
+#### We need to turn the secret into a message.
 * How do we write (or encode) this message?
 * How do we read (or decode) this message?
 * How do we keep our message safe?
-##### We can share the message in person.
+#### We can share the message in person.
 * How do you know you are alone?
-* Is the other person really your friend?
+* Is the other person who they say they are?
 * What if your friend lives far away?
-##### We can share the message in public.
+#### We can share the message in public.
 * Strangely, this is the safest way to share a secret. Requires that we be very careful.
 * If you need to share a secret message, it’s safest to assume everyone can read it.
 * How do we prevent others who read our message from understanding the contents?
 
-### Exercise #1: Let’s encode a message!
+### [Exercise #1](/src/kotlin/exercises/4_StringExercise.kt): Let’s encode a message!
 ---
 
-There are many ways to encode messages.
+*There are many ways to encode messages.
 Computers often use numbers to represent characters.
-We can think of a message as a long list of numbers (or one really big number).
+We can think of a message as a long list of numbers (or one really big number).*
 
 ---
 
@@ -50,7 +50,7 @@ We can think of a message as a long list of numbers (or one really big number).
   * What if someone finds out our hiding spot?
 
 #### We can hide the secret in plain sight
-  * This technique is called [steganography.
+  * This technique is called steganography.
   * What happens if someone is observant?
   * What if someone learns our technique?
 
@@ -80,7 +80,6 @@ We can think of a message as a long list of numbers (or one really big number).
 * What is the difference between encoding and encryption?
   * Substitution ciphers are just a fancy encoding mechanism.
   * Encryption is an encoding that is difficult to decode.
-
 ---
 
 ### How safe are substitution ciphers?
@@ -95,7 +94,6 @@ We can think of a message as a long list of numbers (or one really big number).
   * What happens if someone deciphers a single message? They learn they key.
   * What happens if someone learns our key? They can break every message.
 
-
 ### Exercise #3: Let’s break a cipher!
 ---
 Why are substitution ciphers dangerous?
@@ -107,17 +105,6 @@ Ciphers must be reversible (when reversed they produce the original message)
   * One-time pad
 
 ---
-
-#### crypto-exercises
-
-Here we demonstrate some simple ciphers and how to break them. This repository contains sample code, implementing the following ciphers:
-
-* [Caesar cipher](https://en.wikipedia.org/wiki/Caesar_cipher)
-* [Isogram cipher](https://en.wikipedia.org/wiki/Isogram#Uses_in_ciphers)
-* [Mixed alphabet (random) cipher](http://crypto.interactive-maths.com/mixed-alphabet-cipher.html)
-* [One-time pad](https://en.wikipedia.org/wiki/One-time_pad)
-
-Exercises can be compiled and run using [Gradle](https://gradle.org/), or with [IntelliJ IDEA](https://www.jetbrains.com/idea/).
 
 ## Building
 
