@@ -33,8 +33,8 @@
 * If you need to share a secret message, it’s safest to assume everyone can read it.
 * How do we prevent others who read our message from understanding the contents?
 
-### [Exercise #1](/src/kotlin/exercises/4_StringExercise.kt): Let’s encode a message!
 ---
+### [Exercise #1](/src/main/kotlin/exercises/4_StringExercise.kt): Let’s encode a message!
 
 *There are many ways to encode messages.
 Computers often use numbers to represent characters.
@@ -64,8 +64,8 @@ We can think of a message as a long list of numbers (or one really big number).*
   * How do we unscramble or (decrypt) the message?
   * How do we keep the message secret?
 
-### Exercise #2: Let’s write a cipher!
 ---
+### Exercise #2: Let’s write a cipher!
 
 * What is a substitution cipher?
   * Substitution ciphers are (weak) encryption schemes.
@@ -94,8 +94,8 @@ We can think of a message as a long list of numbers (or one really big number).*
   * What happens if someone deciphers a single message? They learn they key.
   * What happens if someone learns our key? They can break every message.
 
-### Exercise #3: Let’s break a cipher!
 ---
+### Exercise #3: Let’s break a cipher!
 Why are substitution ciphers dangerous?
 If someone learns a plaintext ciphertext
 They work by replacing symbols and words (or Strings) with other symbols.
