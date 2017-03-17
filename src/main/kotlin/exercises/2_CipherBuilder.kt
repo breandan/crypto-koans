@@ -17,7 +17,7 @@ fun main(args: Array<String>) {
 
       print("Encrypted message:  " + ciphertext)
 
-      val cipherLetters = ciphertext.mapIndexed { i, c -> if (plaintext[i] == c && c.isLetter()) 0 else 1 }.sum()
+      val cipherLetters = ciphertext.mapIndexed { i, c -> if (plaintext[i] == c || !c.isLetter()) 0 else 1 }.sum()
       val percentEncrypted = cipherLetters.toDouble() * 100 / ciphertext.length.toDouble()
 
       print(" (Message $percentEncrypted% encrypted)\n")
