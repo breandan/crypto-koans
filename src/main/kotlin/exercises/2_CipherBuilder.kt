@@ -5,7 +5,7 @@ import org.eclipse.collections.impl.bimap.mutable.HashBiMap
 private val plainToCipher = HashBiMap<Char, Char>()
 
 fun main(args: Array<String>) {
-  var alphabet = "etaoinshrdlcumwfgypbvkjxqz".toUpperCase()
+  val alphabet = "etaoinshrdlcumwfgypbvkjxqz".toUpperCase()
   alphabet.forEach { if (plainToCipher[it] == null) plainToCipher.put(it, it) }
 
   do {
@@ -34,27 +34,41 @@ fun main(args: Array<String>) {
       println("Cipher key: " + plainToCipher.filter { e: Map.Entry<Char, Char> -> e.key != e.value })
       println("".padEnd(20 + plaintext.length, '-'))
       println()
-      val unencrypted = alphabet.filter { plainToCipher.contains(it) && plainToCipher[it] != it }.toList()
-      println("Unencrypted letters: " + unencrypted.joinToString { "" }.toUpperCase())
-      println("Unassigned letters:  " + alphabet)
 
-      var replace = prompt("Enter a letter to replace: ").filter(Char::isLetterOrDigit).firstOrNull() ?: break
-      var replacement = prompt("Enter letter that \"${replace.toUpperCase()}\" should be replaced with: ").filter(Char::isLetterOrDigit).firstOrNull() ?: break
+      val unencrypted = getUnencryptedChars(alphabet)
+      println("Unencrypted letters: " + unencrypted.joinToString("").toUpperCase())
+      val available = getAvailableChars(alphabet)
+      println("Unassigned letters:  " + available.joinToString("").toUpperCase())
+
+      var replace: Char = prompt("Enter a letter to replace: ").filter(Char::isLetterOrDigit).firstOrNull() ?: break
+      var replacement: Char = prompt("Enter letter that \"${replace.toUpperCase()}\" should be replaced with: ").filter(Char::isLetterOrDigit).firstOrNull() ?: break
       replace = replace.toUpperCase()
       replacement = replacement.toUpperCase()
 
-      if (plainToCipher.containsValue(replacement)) { // If the cipher letter has already been mapped to
-        val previousKey = (plainToCipher.inverse()[replacement])
-//        plainToCipher.remove(previousKey) // Remove the previous plain - cipher entry
-        plainToCipher.put(previousKey, previousKey)
+      if (plainToCipher[replace] != null) {
+        plainToCipher.remove(replace)
       }
 
-      println("Replacing \"${replace}\"s in plaintext with \"${replacement}\"s")
+      if (plainToCipher.containsValue(replacement)) { // If the cipher letter has already been mapped to
+        val previousKey = plainToCipher.inverse()[replacement]
+        plainToCipher.remove(previousKey) // Remove the previous plain - cipher entry
+        if (previousKey != replacement)
+          plainToCipher[previousKey] = previousKey
+      }
+
+      println("Replacing \"${replace}\"s in plaintext with \"${replacement}\"s...")
       plainToCipher.put(replace, replacement)
-      alphabet = alphabet.replace(replacement.toString(), "")
-    } while (!alphabet.isEmpty())
+    } while (!available.isEmpty())
   } while (plaintext.isNotEmpty())
 }
+
+// Unencrypted chars are alphabetic characters that are absent or match their encrypted character
+private fun getUnencryptedChars(alphabet: String) =
+  alphabet.toCharArray().filter { plainToCipher[it] == null || plainToCipher[it] == it }.toList()
+
+// Available chars are alphabetic characters that are absent or are identical to their plaintext mapping
+private fun getAvailableChars(alphabet: String) =
+  alphabet.toCharArray().filter { !plainToCipher.containsValue(it) || plainToCipher.inverse()[it] == it }.toList()
 
 private fun encrypt(plaintext: String): String {
   return plaintext.map { plainToCipher.getIfAbsentValue(it, it) }.joinToString("")
