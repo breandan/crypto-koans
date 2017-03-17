@@ -17,7 +17,7 @@ fun main(args: Array<String>) {
 
       print("Encrypted message:  " + ciphertext)
 
-      val cipherLetters = ciphertext.mapIndexed { i, c -> if (plaintext[i] == c) 0 else 1 }.sum()
+      val cipherLetters = ciphertext.mapIndexed { i, c -> if (plaintext[i] == c && c.isLetter()) 0 else 1 }.sum()
       val percentEncrypted = cipherLetters.toDouble() * 100 / ciphertext.length.toDouble()
 
       print(" (Message $percentEncrypted% encrypted)\n")
@@ -45,21 +45,28 @@ fun main(args: Array<String>) {
       replace = replace.toUpperCase()
       replacement = replacement.toUpperCase()
 
+      println("Replacing \"$replace\"s in plaintext with \"$replacement\"s...")
       if (plainToCipher[replace] != null) {
         plainToCipher.remove(replace)
       }
 
-      if (plainToCipher.containsValue(replacement)) { // If the cipher letter has already been mapped to
-        val previousKey = plainToCipher.inverse()[replacement]
-        plainToCipher.remove(previousKey) // Remove the previous plain - cipher entry
-        if (previousKey != replacement)
-          plainToCipher[previousKey] = previousKey
-      }
+      resetValue(replacement)
 
-      println("Replacing \"${replace}\"s in plaintext with \"${replacement}\"s...")
       plainToCipher.put(replace, replacement)
     } while (!available.isEmpty())
   } while (plaintext.isNotEmpty())
+}
+
+private fun resetValue(cipherChar: Char) {
+  if (plainToCipher.containsValue(cipherChar)) {
+    val previousKey = plainToCipher.inverse()[cipherChar]!!
+    println("\"$previousKey\" was previously mapped to \"$cipherChar\", removing {$previousKey=$cipherChar} ")
+    plainToCipher.remove(previousKey) // Remove the previous plain - cipher entry
+//    if (previousKey != cipherChar) {
+//      resetValue(previousKey)
+//      plainToCipher[previousKey] = previousKey
+//    }
+  }
 }
 
 // Unencrypted chars are alphabetic characters that are absent or match their encrypted character
