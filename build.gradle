@@ -25,6 +25,8 @@ intellij {
   runIdea {
     args project.projectDir.path
   }
+
+  downloadSources = false
 }
 
 dependencies {
