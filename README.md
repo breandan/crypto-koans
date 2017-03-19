@@ -100,7 +100,7 @@ We can think of a message as a long list of numbers (or one really big number).*
 
 #### What is a key?
 
-* A key is a way to keep others from reading your secret.
+* A key is a way to keep others from knowing your secret.
 * A key is something you know, have or are.
   * Something you know: a password
   * Something you have: a physical key
@@ -167,7 +167,7 @@ Hash functions are cool.
 
 ---
 
-## Building
+## Building from the source
 
 First ensure [JDK 1.8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) and [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) are installed and run the following command in your terminal.
 
@@ -176,6 +176,38 @@ git clone https://github.com/breandan/crypto-exercises && cd crypto-exercises &&
 ```
 
 After several minutes, a program called "IntelliJ IDEA" should start. If you receive an error, make sure JAVA_HOME is [correctly set](https://docs.oracle.com/cd/E19182-01/820-7851/inst_cli_jdk_javahome_t/). Once the program loads, right click on the file called *HelloCrypto.kt* and select "Run". You should see the following output.
+
+```
+Let's learn about cryptology!
+```
+
+## Running from the USB
+
+### Mac OS X
+
+Insert the provided USB drive and type or paste the following command from your terminal (<kbd>⌘</kbd>+<kbd>Space</kbd>, `🔍 Terminal`, <kbd>Enter</kbd>)
+
+```
+/Volumes/USB-STICK/idea.sh
+```
+
+This will launch an instance of IntelliJ IDEA with the project already configured.
+
+If you see a message "Project SDK is not defined" on the top of your screen, click **Setup SDK | Configure... | + (Add new SDK)" | JDK**. Add the JDK which can be found here (under your Home directory): `~/jdk/`.
+
+Once configured, you may need to select "Import Changes" and wait for indexing to complete.
+
+
+
+### Windows
+
+Insert the provided USB drive and open the folder named "Windows", then open the folder named "CryptoExercises", then double click on the icon "Launch_CryptoExercises.lnk".
+
+### Sanity Check
+
+You should now be able to run the `/src/main/kotlin/HelloCrypto.kt` file by right-clicking and selecting "Run".
+
+If configured correctly, it should print the following output:
 
 ```
 Let's learn about cryptology!
