@@ -23,7 +23,7 @@ fun main(args: Array<String>) {
 }
 
 private fun getShiftChar(c: Char, shift: Int): Char {
-  if(!c.isLetter())
+  if (!c.isLetter())
     return c
 
   val x = c.toInt() + shift

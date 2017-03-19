@@ -31,7 +31,7 @@ fun main(args: Array<String>) {
 
       println()
       println("Plaintext message:  " + plaintext)
-      println("Cipher key: " + plainToCipher.filter { e: Map.Entry<Char, Char> -> e.key != e.value })
+      println("Key (plain=cipher): " + plainToCipher.filter { e: Map.Entry<Char, Char> -> e.key != e.value })
       println("".padEnd(20 + plaintext.length, '-'))
       println()
 
