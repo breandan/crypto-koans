@@ -1,4 +1,4 @@
-package ciphers
+package exercises
 
 fun main(args: Array<String>) {
   val plaintext = "what do you call a camel with three humps"

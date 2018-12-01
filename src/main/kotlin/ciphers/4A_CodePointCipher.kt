@@ -37,7 +37,7 @@ private fun encrypt(secretMessage: CodePointList): CodePointList {
     .collectInt { it * 23 }
 }
 
-fun decrypt(encrypted: CodePointList): CodePointList {
+private fun decrypt(encrypted: CodePointList): CodePointList {
   return encrypted.collectInt { it / 23 }
     .collectInt { it - 17 }
     .collectInt { it / 13 }

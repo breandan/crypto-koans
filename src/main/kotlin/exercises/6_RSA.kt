@@ -1,4 +1,4 @@
-package asymmetric
+package exercises
 
 import java.math.BigInteger
 import java.security.SecureRandom
@@ -34,9 +34,11 @@ private fun encrypt(plaintext: String): String {
 
 private fun decrypt(ciphertext: String): String {
   val c = Base64.getDecoder().decode(ciphertext)
+
   // ed = 1 (mod φ)
-  // val d = e.modInverse(φ)
+//   val d = e.modInverse(φ)
   val d = BigInteger.valueOf(modInverse(e.toLong(), φ.toLong()))
+
   println(d)
   // C^d (mod pq)
   val p = BigInteger(c).modPow(d, pq)

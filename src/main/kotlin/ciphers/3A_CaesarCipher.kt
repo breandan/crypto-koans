@@ -6,13 +6,17 @@ package ciphers
 
 fun main(args: Array<String>) {
   val message = "meet me at secret location next wednesday afternoon"
-  val dictionary = arrayOf("secret")
-  val secretKey = 3
+  val secretKey = 6
 
   val ciphertext = encrypt(message, secretKey)
-  println("Ciphertext: $ciphertext")
+  println("Ciphertext: " + ciphertext)
+  bruteForce(ciphertext)
+}
+
+private fun bruteForce(ciphertext: String) {
   println("Brute forcing key... ")
 
+  val dictionary = arrayOf("secret")
   for (i in 0 downTo -26 + 1) {
     val candidate = decrypt(ciphertext, i)
     println(candidate)
@@ -31,19 +35,13 @@ private fun decrypt(ciphertext: String, key: Int): String {
 }
 
 private fun encrypt(string: String, key: Int): String {
-  val sb = StringBuilder()
-
-  for (c in string.toCharArray()) {
-    if (Character.isLetter(c))
-      sb.append(getShiftChar(c, key))
-    else
-      sb.append(c)
-  }
-
-  return sb.toString()
+  return string.map { getShiftChar(it, key) }.joinToString("")
 }
 
 private fun getShiftChar(c: Char, shift: Int): Char {
+  if(!c.isLetter())
+    return c
+
   val x = c.toInt() + shift
   val y = x - 97
   val z = Math.floorMod(y, 26)
