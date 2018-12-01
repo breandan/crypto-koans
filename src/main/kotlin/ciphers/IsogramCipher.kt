@@ -15,10 +15,10 @@ fun main(args: Array<String>) {
   val message = "Meet me at secret location at noon on Wednesday".toLowerCase()
 
   val ciphertext = encrypt(ISOGRAM, message, SHIFT)
-  println("Ciphertext:\t\t" + ciphertext)
+  println("Ciphertext:\t\t$ciphertext")
 
   val decrypted_plaintext = decrypt(ISOGRAM, ciphertext, SHIFT)
-  println("Decrypted text:\t" + decrypted_plaintext)
+  println("Decrypted text:\t$decrypted_plaintext")
 
   File("src/main/resources/ciphertext").writeText(ciphertext)
 }

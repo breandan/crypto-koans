@@ -13,9 +13,9 @@ import java.security.SecureRandom
 fun main(args: Array<String>) {
   val message = "four score and seven years ago our fathers".toLowerCase()
 
-  println("Plaintext:  " + message)
+  println("Plaintext:  $message")
   val ciphertext = encrypt(message)
-  println("Ciphertext: " + ciphertext)
+  println("Ciphertext: $ciphertext")
   println("Decrypted:  " + decrypt(ciphertext))
 }
 
@@ -33,12 +33,12 @@ private fun encrypt(plaintext: String): String {
   var alphabet = "abcdefghijklmnopqrstuvwxyz"
   for (c in uniqueCharacters.toCharArray()) {
     val x = alphabet[random.nextInt(alphabet.length)]
-    cipher.put(c, x)
+    cipher[c] = x
     alphabet = alphabet.replace(x + "", "")
   }
 
   val sb = StringBuilder()
-  for (i in 0..plaintext.length - 1) {
+  for (i in 0 until plaintext.length) {
     val c = plaintext[i]
     if (cipher.containsKey(c))
       sb.append(cipher[c])

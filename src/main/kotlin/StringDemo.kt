@@ -5,7 +5,7 @@ fun main(args: Array<String>) {
 
   (33..126).forEachIndexed { i, it ->
     if ((i + 1) % 8 == 0) println()
-    print("" + it.toInt() + "\t→\t" + it.toChar() + "\t|\t")
+    print("" + it + "\t→\t" + it.toChar() + "\t|\t")
   }
 
   val c = prompt("\n\nIf you enter a string, I'll tell you the numbers: ")

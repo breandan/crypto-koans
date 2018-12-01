@@ -20,15 +20,15 @@ fun main(args: Array<String>) {
 
   val secretMessage = StringIterate.toCodePointList(string)
   // Prints: This is a secret message
-  println("Plaintext:  " + secretMessage)
+  println("Plaintext:  $secretMessage")
 
   val encrypted = encrypt(secretMessage)
   // Prints: 掣竿簪蟘⛧簪蟘⛧狒⛧蟘睾用蚭睾褃⛧胖睾蟘蟘狒秔睾
-  println("Ciphertext: " + encrypted)
+  println("Ciphertext: $encrypted")
 
   val decrypted = decrypt(encrypted)
   // Print: This is a secret message
-  println("Decrypted:  " + decrypted)
+  println("Decrypted:  $decrypted")
 }
 
 private fun encrypt(secretMessage: CodePointList): CodePointList {

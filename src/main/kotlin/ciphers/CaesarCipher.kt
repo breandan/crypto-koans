@@ -7,10 +7,10 @@ package ciphers
 fun main(args: Array<String>) {
   val message = "meet me at secret location next wednesday afternoon"
   val dictionary = arrayOf("secret")
-  val secretKey = 6
+  val secretKey = 3
 
   val ciphertext = encrypt(message, secretKey)
-  println("Ciphertext: " + ciphertext)
+  println("Ciphertext: $ciphertext")
   println("Brute forcing key... ")
 
   for (i in 0 downTo -26 + 1) {

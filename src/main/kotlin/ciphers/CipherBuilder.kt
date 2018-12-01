@@ -12,14 +12,14 @@ fun main(args: Array<String>) {
 
     do {
       println("Encrypted message:   " + encrypt(message))
-      println("Cipher key: " + cipher)
+      println("Cipher key: $cipher")
       println()
       println("Unencrypted letters: " +
         message.filter { !cipher.containsKey(it) }
           .toCharArray()
           .distinct()
           .joinToString(""))
-      println("Unassigned alphabet:  " + alphabet)
+      println("Unassigned alphabet:  $alphabet")
       val reps = prompt("Enter replacement: ")
 
       var a = reps.find { message.contains(it) && it.isLetter() }
@@ -31,14 +31,14 @@ fun main(args: Array<String>) {
         if (b != null) {
           if(cipher.inverse().containsKey(b))
             cipher.remove(a)
-          cipher.put(a, b)
+          cipher[a] = b
           alphabet = alphabet.replace(b.toString(), "")
         }
 
         val collisions = cipher.valuesView().filter { message.contains(it) &&
           !cipher.containsKey(it) }
         if(collisions.isNotEmpty()) {
-          println("To assign: " + collisions)
+          println("To assign: $collisions")
           println("(Decryption will fail unless you reassign these letters!)")
         }
 

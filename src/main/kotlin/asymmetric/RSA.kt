@@ -4,25 +4,25 @@ import java.math.BigInteger
 import java.security.SecureRandom
 import java.util.*
 
-private val BITS = 14
+private const val BITS = 14
 private val r = SecureRandom()
 private val p = BigInteger.probablePrime(BITS, r)
 private val q = BigInteger.probablePrime(BITS, r)
 private val φ = p.subtract(BigInteger.ONE).multiply(q.subtract(BigInteger.ONE))
 
-public val pq = p.multiply(q)
-public var e = BigInteger.valueOf(3)
+val pq = p.multiply(q)
+var e = BigInteger.valueOf(3)
 
 fun main(args: Array<String>) {
-  while (φ.gcd(e).compareTo(BigInteger.ONE) > 0)
+  while (φ.gcd(e) > BigInteger.ONE)
     e = e.add(BigInteger.valueOf(2))
 
-  println("Public key: " + pq)
+  println("Public key: $pq")
   val s = encrypt("yes")
-  println("Ciphertext: " + s)
+  println("Ciphertext: $s")
 
   val d = decrypt(s)
-  println("Decrypted:  " + d)
+  println("Decrypted:  $d")
 }
 
 private fun encrypt(plaintext: String): String {

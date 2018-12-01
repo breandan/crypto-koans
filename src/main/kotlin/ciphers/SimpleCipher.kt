@@ -2,15 +2,15 @@ package ciphers
 
 fun main(args: Array<String>) {
   val plaintext = "what do you call a camel with three humps"
-  println("Plaintext:\t" + plaintext)
+  println("Plaintext:\t$plaintext")
 
   val ciphertext = encrypt(plaintext)
-  println("Ciphertext:\t" + ciphertext)
+  println("Ciphertext:\t$ciphertext")
 
   val decrypted = decrypt(ciphertext)
-  println("Decrypted:\t" + decrypted)
+  println("Decrypted:\t$decrypted")
 
-  if (decrypted.equals(plaintext))
+  if (decrypted == plaintext)
     println("Decryption succeeded!")
   else
     println("Decryption failure!")
