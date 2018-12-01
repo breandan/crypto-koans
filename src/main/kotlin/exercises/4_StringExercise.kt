@@ -28,16 +28,15 @@ fun main(args: Array<String>) {
     val char = it.toChar().toString().padStart(6).padEnd(11)
     val decimal = it.toString().padStart(6).padEnd(9)
     val binary = ci.toString(2).padStart(8,'0').padStart(9).padEnd(10)
-    print("|" + char + "|" + decimal)
-    print("|" + binary + "|\n")
+    print("|$char|$decimal")
+    print("|$binary|\n")
   }
 
   println(" ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ")
   prompt("\nWe can also treat strings of characters as (large) numbers.")
 
   val asInt = BigInteger(s.toByteArray())
-  val bin = asInt.toByteArray().map { byte(it).toString(2).padStart(8, '0') }
-    .joinToString(" ")
+  val bin = asInt.toByteArray().joinToString(" ") { byte(it).toString(2).padStart(8, '0') }
 
 
   prompt("We can represent '$s' in binary: " + bin.padStart(8, '0'))

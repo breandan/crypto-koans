@@ -34,8 +34,7 @@ fun main(args: Array<String>) {
   println("Prime numbers between 1 and 100:")
 
   // Print out the primes we have found
-  var index = 0
-  for (i in primes) {
+  for ((index, i) in primes.withIndex()) {
     // If index is divisible by 10, start a new line
     if (index.mod(10) == 0)
       println()
@@ -44,7 +43,6 @@ fun main(args: Array<String>) {
     if (index < primes.size - 1)
       print(",\t")
 
-    index++
   }
 
   println("\n\nFactoring large numbers...")

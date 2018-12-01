@@ -18,13 +18,13 @@ fun main(args: Array<String>) {
   sc = Scanner(File("src/main/resources/ciphertext"))
   sc.useDelimiter(" ")
 
-  val sb: StringBuilder = StringBuilder()
+  val sb = StringBuilder()
 
   while (sc.hasNext()) {
     val s = sc.next()
     if (!possibleWords.containsKey(s))
       possibleWords.putAll(s, patterns.get(convertWordToPattern(s)))
-    sb.append(s + " ")
+    sb.append("$s ")
   }
 
   val ciphertext = sb.toString()
@@ -76,7 +76,7 @@ private fun pairwise() {
       val seen = HashBagMultimap.newMultimap<Char, Char>()
 
       for (word in entry.two) {
-        for (i in 0..word.length - 1) {
+        for (i in 0 until word.length) {
           if (!candidates.containsKeyAndValue(token[i], word[i])) {
             impossibleWords.add(word)
             break
@@ -108,5 +108,5 @@ private fun pairwise() {
 
 private fun convertWordToPattern(word: String): String {
   val m = HashMap<Char, Char>()
-  return word.map { m.computeIfAbsent(it, { 'a' + m.size }) }.joinToString("")
+  return word.map { m.computeIfAbsent(it) { 'a' + m.size } }.joinToString("")
 }

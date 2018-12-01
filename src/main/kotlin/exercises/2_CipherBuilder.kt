@@ -6,7 +6,7 @@ private val plainToCipher = HashBiMap<Char, Char>()
 
 fun main(args: Array<String>) {
   val alphabet = "etaoinshrdlcumwfgypbvkjxqz".toUpperCase()
-  alphabet.forEach { if (plainToCipher[it] == null) plainToCipher.put(it, it) }
+  alphabet.forEach { if (plainToCipher[it] == null) plainToCipher[it] = it }
 
   do {
     val plaintext = prompt("Enter a new message: ").toUpperCase()
@@ -15,7 +15,7 @@ fun main(args: Array<String>) {
       println("".padEnd(20 + plaintext.length, '-'))
       val ciphertext = encrypt(plaintext)
 
-      print("Encrypted message:  " + ciphertext)
+      print("Encrypted message:  $ciphertext")
 
       val cipherLetters = ciphertext.mapIndexed { i, c -> if (plaintext[i] == c || !c.isLetter()) 0 else 1 }.sum()
       val percentEncrypted = cipherLetters.toDouble() * 100 / ciphertext.length.toDouble()
@@ -30,7 +30,7 @@ fun main(args: Array<String>) {
       }
 
       println()
-      println("Plaintext message:  " + plaintext)
+      println("Plaintext message:  $plaintext")
       println("Key (plain=cipher): " + plainToCipher.filter { e: Map.Entry<Char, Char> -> e.key != e.value })
       println("".padEnd(20 + plaintext.length, '-'))
       println()
@@ -40,8 +40,9 @@ fun main(args: Array<String>) {
       val available = getAvailableChars(alphabet)
       println("Unassigned letters:  " + available.joinToString("").toUpperCase())
 
-      var replace: Char = prompt("Enter a letter to replace: ").filter(Char::isLetterOrDigit).firstOrNull() ?: break
-      var replacement: Char = prompt("Enter letter that \"${replace.toUpperCase()}\" should be replaced with: ").filter(Char::isLetterOrDigit).firstOrNull() ?: break
+      var replace: Char = prompt("Enter a letter to replace: ").firstOrNull(Char::isLetterOrDigit) ?: break
+      var replacement: Char = prompt("Enter letter that \"${replace.toUpperCase()}\" should be replaced with: ")
+        .firstOrNull(Char::isLetterOrDigit) ?: break
       replace = replace.toUpperCase()
       replacement = replacement.toUpperCase()
 
@@ -52,7 +53,7 @@ fun main(args: Array<String>) {
 
       resetValue(replacement)
 
-      plainToCipher.put(replace, replacement)
+      plainToCipher[replace] = replacement
     } while (!available.isEmpty())
   } while (plaintext.isNotEmpty())
 }

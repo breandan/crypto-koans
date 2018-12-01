@@ -4,8 +4,8 @@ import org.eclipse.collections.impl.bag.mutable.HashBag
 import java.io.File
 import java.util.*
 
-private val riddle = "jung qb lbh pnyy na nyyvtngbe jrnevat n irfg"
-private val answer = "vi diqznodbvojm"
+private const val riddle = "jung qb lbh pnyy na nyyvtngbe jrnevat n irfg"
+private const val answer = "vi diqznodbvojm"
 
 private val dictionary = HashBag<String>()
 

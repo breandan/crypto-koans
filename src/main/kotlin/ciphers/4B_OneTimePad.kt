@@ -7,12 +7,12 @@ import java.security.SecureRandom
  */
 
 private val secureRandom = SecureRandom()
-private val ALPHABET_SIZE = 94 //ASCII 32 - 126
-private val PAD_SIZE = 100
+private const val ALPHABET_SIZE = 94 //ASCII 32 - 126
+private const val PAD_SIZE = 100
 
 fun main(args: Array<String>) {
   val message = "Meet me at secret location at noon on Wednesday."
-  println("Plaintext:    " + message)
+  println("Plaintext:    $message")
 
   // Generate secure random key (never reuse this)
   val pad = ByteArray(PAD_SIZE)
@@ -20,10 +20,10 @@ fun main(args: Array<String>) {
   println("One time pad: " + pad.map { getShiftChar(0.toChar(), it) } .joinToString(""))
 
   val ciphertext = encrypt(message, pad)
-  println("Ciphertext:   " + ciphertext)
+  println("Ciphertext:   $ciphertext")
 
   val decrypted = decrypt(ciphertext, pad)
-  println("Decrypted:    " + decrypted)
+  println("Decrypted:    $decrypted")
   println(Byte.MAX_VALUE.toChar())
 }
 

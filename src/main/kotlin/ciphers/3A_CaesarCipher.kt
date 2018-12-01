@@ -9,7 +9,7 @@ fun main(args: Array<String>) {
   val secretKey = 6
 
   val ciphertext = encrypt(message, secretKey)
-  println("Ciphertext: " + ciphertext)
+  println("Ciphertext: $ciphertext")
   bruteForce(ciphertext)
 }
 

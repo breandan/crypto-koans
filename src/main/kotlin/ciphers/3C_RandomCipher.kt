@@ -14,13 +14,14 @@ private val cipher = LinkedHashSet<Char>()
 
 fun main(args: Array<String>) {
   val random = SecureRandom()
-  cipher.addAll(('a'..'z').foldIndexed(arrayListOf<Char>(),
-    { idx, list, c -> list.add(random.nextInt(idx + 1), c); list }))
+  cipher.addAll(('a'..'z').foldIndexed(arrayListOf()) { idx, list, c ->
+    list.add(random.nextInt(idx + 1), c); list
+  })
   val message = "four score and seven years ago our fathers".toLowerCase()
 
-  println("Plaintext:  " + message)
+  println("Plaintext:  $message")
   val ciphertext = encrypt(message)
-  println("Ciphertext: " + ciphertext)
+  println("Ciphertext: $ciphertext")
   println("Decrypted:  " + decrypt(ciphertext))
 }
 
