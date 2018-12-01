@@ -54,7 +54,7 @@ fun main(args: Array<String>) {
     val sqrt = Math.ceil(Math.sqrt(bit.length.toDouble()))
     if (i <= bit.length) {
       if (it == '0') print("   ") else print(" █ ")
-      if ((i + 1).mod(sqrt.toInt()) == 0)
+      if ((i + 1).rem(sqrt.toInt()) == 0)
         println()
     }
   }

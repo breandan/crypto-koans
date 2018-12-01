@@ -36,7 +36,7 @@ fun main(args: Array<String>) {
   // Print out the primes we have found
   for ((index, i) in primes.withIndex()) {
     // If index is divisible by 10, start a new line
-    if (index.mod(10) == 0)
+    if (index.rem(10) == 0)
       println()
 
     print(i.toString())

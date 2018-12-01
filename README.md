@@ -172,7 +172,7 @@ Hash functions are cool.
 First ensure [JDK 1.8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) and [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) are installed and run the following command in your terminal.
 
 ```
-git clone https://github.com/breandan/crypto-exercises && cd crypto-exercises && ./gradlew runIdea
+git clone https://github.com/breandan/crypto-exercises && cd crypto-exercises && ./gradlew runIde
 ```
 
 After several minutes, a program called "IntelliJ IDEA" should start. If you receive an error, make sure JAVA_HOME is [correctly set](https://docs.oracle.com/cd/E19182-01/820-7851/inst_cli_jdk_javahome_t/). Once the program loads, right click on the file called *HelloCrypto.kt* and select "Run". You should see the following output.
