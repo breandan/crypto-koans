@@ -3,8 +3,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
   application
-  kotlin("jvm") version "1.3.10"
-  id("org.jetbrains.intellij") version "0.3.12"
+  kotlin("jvm") version "1.3.11"
+  id("org.jetbrains.intellij") version "0.4.1"
 }
 
 application {
