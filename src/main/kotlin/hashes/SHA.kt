@@ -3,7 +3,7 @@ package hashes
 import java.math.BigInteger
 import java.security.MessageDigest
 
-fun main(args: Array<String>) {
+fun main() {
   println(hash("the quick brown fox jumped over the lazy dog"))
 }
 

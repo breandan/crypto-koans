@@ -4,7 +4,7 @@ import org.eclipse.collections.impl.bimap.mutable.HashBiMap
 
 private val plainToCipher = HashBiMap<Char, Char>()
 
-fun main(args: Array<String>) {
+fun main() {
   val alphabet = "etaoinshrdlcumwfgypbvkjxqz".toUpperCase()
   alphabet.forEach { if (plainToCipher[it] == null) plainToCipher[it] = it }
 
@@ -23,11 +23,8 @@ fun main(args: Array<String>) {
       print(" (Message $percentEncrypted% encrypted)\n")
       print("Decrypted message:  " + decrypt(ciphertext))
 
-      if (decrypt(encrypt(plaintext)) != plaintext) {
-        print(" (Does not match plaintext!)")
-      } else {
-        print(" (Matches the plaintext!)")
-      }
+      if (decrypt(encrypt(plaintext)) != plaintext) print(" (Does not match plaintext!)")
+      else print(" (Matches the plaintext!)")
 
       println()
       println("Plaintext message:  $plaintext")
@@ -78,10 +75,8 @@ private fun getUnencryptedChars(alphabet: String) =
 private fun getAvailableChars(alphabet: String) =
   alphabet.toCharArray().filter { !plainToCipher.containsValue(it) || plainToCipher.inverse()[it] == it }.toList()
 
-private fun encrypt(plaintext: String): String {
-  return plaintext.map { plainToCipher.getIfAbsentValue(it, it) }.joinToString("")
-}
+private fun encrypt(plaintext: String): String =
+  plaintext.map { plainToCipher.getIfAbsentValue(it, it) }.joinToString("")
 
-private fun decrypt(ciphertext: String): String {
-  return ciphertext.map { plainToCipher.inverse().getIfAbsentValue(it, it) }.joinToString("")
-}
+private fun decrypt(ciphertext: String): String =
+  ciphertext.map { plainToCipher.inverse().getIfAbsentValue(it, it) }.joinToString("")

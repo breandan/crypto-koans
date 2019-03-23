@@ -4,7 +4,7 @@ package ciphers
  * The Caesar cipher shifts each letter n-letters down the alphabet.
  */
 
-fun main(args: Array<String>) {
+fun main() {
   val message = "meet me at secret location next wednesday afternoon"
   val secretKey = 6
 
@@ -30,13 +30,11 @@ private fun bruteForce(ciphertext: String) {
   }
 }
 
-private fun decrypt(ciphertext: String, key: Int): String {
-  return encrypt(ciphertext, -key)
-}
+private fun decrypt(ciphertext: String, key: Int): String =
+  encrypt(ciphertext, -key)
 
-private fun encrypt(string: String, key: Int): String {
-  return string.map { getShiftChar(it, key) }.joinToString("")
-}
+private fun encrypt(string: String, key: Int): String =
+  string.map { getShiftChar(it, key) }.joinToString("")
 
 private fun getShiftChar(c: Char, shift: Int): Char {
   if(!c.isLetter())

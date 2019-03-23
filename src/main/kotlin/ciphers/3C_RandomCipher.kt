@@ -12,7 +12,7 @@ import java.util.*
 
 private val cipher = LinkedHashSet<Char>()
 
-fun main(args: Array<String>) {
+fun main() {
   val random = SecureRandom()
   cipher.addAll(('a'..'z').foldIndexed(arrayListOf()) { idx, list, c ->
     list.add(random.nextInt(idx + 1), c); list
@@ -26,13 +26,11 @@ fun main(args: Array<String>) {
 }
 
 
-private fun encrypt(plaintext: String): String {
-  return plaintext.map { getShiftChar(it, 1) }.joinToString("")
-}
+private fun encrypt(plaintext: String): String =
+  plaintext.map { getShiftChar(it, 1) }.joinToString("")
 
-private fun decrypt(ciphertext: String): String {
-  return ciphertext.map { getShiftChar(it, -1) }.joinToString("")
-}
+private fun decrypt(ciphertext: String): String =
+  ciphertext.map { getShiftChar(it, -1) }.joinToString("")
 
 private fun getShiftChar(c: Char, i: Int): Char {
   return cipher.elementAt(Math.floorMod(cipher.indexOf(c) + i, cipher.size))

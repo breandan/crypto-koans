@@ -27,7 +27,7 @@ fun sqrt(number: Int): Int {
   return Math.sqrt(number.toDouble()).toInt()
 }
 
-fun main(args: Array<String>) {
+fun main() {
   // Filter for all integers from 1 to 100 and keep if primes
   val primes = (1..100).filter { isPrime(it) }
 

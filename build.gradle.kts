@@ -1,10 +1,9 @@
 import org.jetbrains.intellij.tasks.RunIdeTask
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
   application
-  kotlin("jvm") version "1.3.11"
-  id("org.jetbrains.intellij") version "0.4.1"
+  kotlin("jvm") version "1.3.21"
+  id("org.jetbrains.intellij") version "0.4.5"
 }
 
 application {

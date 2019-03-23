@@ -3,7 +3,7 @@ package exercises
 import java.awt.Toolkit
 import java.math.BigInteger
 
-fun main(args: Array<String>) {
+fun main() {
   prompt("Press [ENTER] to continue...")
   prompt("In this exercise, we'll learn to represent text in different ways.")
   prompt("In programming, we often treat characters as numbers. For example:")
@@ -41,7 +41,7 @@ fun main(args: Array<String>) {
 
   prompt("We can represent '$s' in binary: " + bin.padStart(8, '0'))
 
-  prompt("'$s' can be encoded as a decimal number: " + asInt.toString())
+  prompt("'$s' can be encoded as a decimal number: $asInt")
 
   prompt("Or in octal (base-8): " + asInt.toString(8))
 

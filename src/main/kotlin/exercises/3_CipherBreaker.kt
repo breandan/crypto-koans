@@ -9,7 +9,7 @@ private const val answer = "vi diqznodbvojm"
 
 private val dictionary = HashBag<String>()
 
-fun main(args: Array<String>) {
+fun main() {
   val sc = Scanner(File("src/main/resources/google-10000-english.txt"))
 
   while (sc.hasNextLine()) {

@@ -5,7 +5,7 @@ import java.util.*
 
 private val possibleWords = FastListMultimap.newMultimap<String, String>()
 
-fun main(args: Array<String>) {
+fun main() {
   var sc = Scanner(File("src/main/resources/google-10000-english.txt"))
   val lines = ArrayList<String>()
   while (sc.hasNextLine()) {

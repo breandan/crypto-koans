@@ -9,7 +9,7 @@ import java.io.File
  * R->O, ..., N->G, G->T. ("GATE" becomes "TKRM").
  */
 
-fun main(args: Array<String>) {
+fun main() {
   val SHIFT = 1
   val ISOGRAM = "subdermatoglyphic"
   val message = "Meet me at secret location at noon on Wednesday".toLowerCase()
@@ -23,9 +23,8 @@ fun main(args: Array<String>) {
   File("src/main/resources/ciphertext").writeText(ciphertext)
 }
 
-private fun decrypt(isogram: String, ciphertext: String, shift: Int): String {
-  return encrypt(isogram.reversed(), ciphertext, shift)
-}
+private fun decrypt(isogram: String, ciphertext: String, shift: Int): String =
+  encrypt(isogram.reversed(), ciphertext, shift)
 
 private fun encrypt(isogram: String, s: String, shift: Int): String {
   val sb = StringBuilder()

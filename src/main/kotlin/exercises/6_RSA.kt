@@ -13,7 +13,7 @@ private val φ = p.subtract(BigInteger.ONE).multiply(q.subtract(BigInteger.ONE))
 val pq = p.multiply(q)
 var e = BigInteger.valueOf(3)
 
-fun main(args: Array<String>) {
+fun main() {
   while (φ.gcd(e) > BigInteger.ONE)
     e = e.add(BigInteger.valueOf(2))
 
