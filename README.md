@@ -12,7 +12,7 @@
 >
 > 1. something that is kept or meant to be kept unknown or unseen by others. ("a state secret")
 
-### Let’s say you have a secret. How you be sure your secret will stay secret?
+### Let’s say you have a secret. How do you make sure your secret will stay secret?
 
 * Do not write it down. (Even in your diary.)
 * Do not talk about it. (Even in your sleep.)
