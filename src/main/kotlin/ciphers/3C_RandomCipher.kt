@@ -10,28 +10,20 @@ import java.util.*
  * referred to as a "monoalphabetic substitution cipher".
  */
 
-private val cipher = LinkedHashSet<Char>()
-
 fun main() {
   val random = SecureRandom()
-  cipher.addAll(('a'..'z').foldIndexed(arrayListOf()) { idx, list, c ->
-    list.add(random.nextInt(idx + 1), c); list
-  })
-  val message = "four score and seven years ago our fathers".toLowerCase()
+  val alphabet = ('a'..'z')
+  val key = alphabet.zip(alphabet.shuffled(random)).toMap()
+  val message = "four score and seven years ago our fathers brought forth to this continent a new nation".lowercase()
 
   println("Plaintext:  $message")
-  val ciphertext = encrypt(message)
+  val ciphertext = encrypt(message, key)
   println("Ciphertext: $ciphertext")
-  println("Decrypted:  " + decrypt(ciphertext))
+  println("Decrypted:  " + decrypt(ciphertext, key))
 }
 
+private fun encrypt(plaintext: String, key: Map<Char, Char>): String =
+  plaintext.map { key[it] ?: it }.joinToString("")
 
-private fun encrypt(plaintext: String): String =
-  plaintext.map { getShiftChar(it, 1) }.joinToString("")
-
-private fun decrypt(ciphertext: String): String =
-  ciphertext.map { getShiftChar(it, -1) }.joinToString("")
-
-private fun getShiftChar(c: Char, i: Int): Char {
-  return cipher.elementAt(Math.floorMod(cipher.indexOf(c) + i, cipher.size))
-}
+private fun decrypt(ciphertext: String, key: Map<Char, Char>): String =
+  ciphertext.map { v -> key.entries.firstOrNull { it.value == v }?.key ?: v }.joinToString("")
