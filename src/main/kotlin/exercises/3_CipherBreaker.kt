@@ -26,7 +26,7 @@ private fun getShiftChar(c: Char, shift: Int): Char {
   if (!c.isLetter())
     return c
 
-  val x = c.toInt() + shift
+  val x = c.code + shift
   val y = x - 97
   val z = Math.floorMod(y, 26)
   val i = (z + 97).toChar()

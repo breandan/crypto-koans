@@ -2,6 +2,8 @@ package exercises
 
 import java.awt.Toolkit
 import java.math.BigInteger
+import kotlin.math.*
+import kotlin.system.exitProcess
 
 fun main() {
   prompt("Press [ENTER] to continue...")
@@ -10,7 +12,7 @@ fun main() {
 
   ('!'..'~').forEachIndexed { i, it ->
     if ((i + 1) % 8 == 0) println()
-    print("" + it + "\t→\t" + it.toInt() + "\t|\t")
+    print("" + it + "\t→\t" + it.code + "\t|\t")
   }
   println()
 
@@ -25,7 +27,7 @@ fun main() {
   println("|-----------|---------|----------|")
   s.trim().toByteArray().forEach {
     val ci = byte(it)
-    val char = it.toChar().toString().padStart(6).padEnd(11)
+    val char = it.toInt().toChar().toString().padStart(6).padEnd(11)
     val decimal = it.toString().padStart(6).padEnd(9)
     val binary = ci.toString(2).padStart(8,'0').padStart(9).padEnd(10)
     print("|$char|$decimal")
@@ -51,7 +53,7 @@ fun main() {
   val bit = asInt.toString(2)
 
   bit.forEachIndexed { i, it ->
-    val sqrt = Math.ceil(Math.sqrt(bit.length.toDouble()))
+    val sqrt = ceil(sqrt(bit.length.toDouble()))
     if (i <= bit.length) {
       if (it == '0') print("   ") else print(" █ ")
       if ((i + 1).rem(sqrt.toInt()) == 0)
@@ -83,7 +85,7 @@ fun prompt(s: String = ""): String {
   println(s)
   val c = readLine().orEmpty()
   if (c.contains(0.toChar()))
-    System.exit(0)
+    exitProcess(0)
   println()
 
   return c

@@ -24,7 +24,7 @@ fun main() {
 
   val decrypted = decrypt(ciphertext, pad)
   println("Decrypted:    $decrypted")
-  println(Byte.MAX_VALUE.toChar())
+  println(Byte.MAX_VALUE.toInt().toChar())
 }
 
 
@@ -37,7 +37,7 @@ private fun decrypt(ciphertext: String, pad: ByteArray): String =
   ciphertext.mapIndexed { i, c -> getShiftChar(c, (-pad[i]).toByte()) }.joinToString("")
 
 private fun getShiftChar(c: Char, shift: Byte): Char {
-  val x = c.toInt() - 32 + shift
+  val x = c.code - 32 + shift
   val z = Math.floorMod(x, ALPHABET_SIZE)
   val i = (z + 32).toChar()
   return i

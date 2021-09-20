@@ -5,11 +5,11 @@ import org.eclipse.collections.impl.bimap.mutable.HashBiMap
 private val plainToCipher = HashBiMap<Char, Char>()
 
 fun main() {
-  val alphabet = "etaoinshrdlcumwfgypbvkjxqz".toUpperCase()
+  val alphabet = "etaoinshrdlcumwfgypbvkjxqz".uppercase()
   alphabet.forEach { if (plainToCipher[it] == null) plainToCipher[it] = it }
 
   do {
-    val plaintext = prompt("Enter a new message: ").toUpperCase()
+    val plaintext = prompt("Enter a new message: ").uppercase()
 
     do {
       println("".padEnd(20 + plaintext.length, '-'))
@@ -33,15 +33,15 @@ fun main() {
       println()
 
       val unencrypted = getUnencryptedChars(alphabet)
-      println("Unencrypted letters: " + unencrypted.joinToString("").toUpperCase())
+      println("Unencrypted letters: " + unencrypted.joinToString("").uppercase())
       val available = getAvailableChars(alphabet)
-      println("Unassigned letters:  " + available.joinToString("").toUpperCase())
+      println("Unassigned letters:  " + available.joinToString("").uppercase())
 
       var replace: Char = prompt("Enter a letter to replace: ").firstOrNull(Char::isLetterOrDigit) ?: break
-      var replacement: Char = prompt("Enter letter that \"${replace.toUpperCase()}\" should be replaced with: ")
+      var replacement: Char = prompt("Enter letter that \"${replace.uppercase()}\" should be replaced with: ")
         .firstOrNull(Char::isLetterOrDigit) ?: break
-      replace = replace.toUpperCase()
-      replacement = replacement.toUpperCase()
+      replace = replace.uppercaseChar()
+      replacement = replacement.uppercaseChar()
 
       println("Replacing \"$replace\"s in plaintext with \"$replacement\"s...")
       if (plainToCipher[replace] != null) {
@@ -51,7 +51,7 @@ fun main() {
       resetValue(replacement)
 
       plainToCipher[replace] = replacement
-    } while (!available.isEmpty())
+    } while (available.isNotEmpty())
   } while (plaintext.isNotEmpty())
 }
 

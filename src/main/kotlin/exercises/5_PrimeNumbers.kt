@@ -3,6 +3,8 @@ package exercises
 import java.math.BigDecimal
 import java.math.BigInteger
 import java.util.*
+import kotlin.math.sqrt
+import kotlin.system.exitProcess
 
 private val primes = HashSet<Int>()
 private fun isPrime(number: Int): Boolean {
@@ -23,9 +25,7 @@ private fun factor(number: Int): Collection<Int> {
   return primeFactors
 }
 
-fun sqrt(number: Int): Int {
-  return Math.sqrt(number.toDouble()).toInt()
-}
+fun sqrt(number: Int): Int = sqrt(number.toDouble()).toInt()
 
 fun main() {
   // Filter for all integers from 1 to 100 and keep if primes
@@ -57,7 +57,7 @@ fun main() {
     if (!BigInteger.valueOf(firstFactor).isProbablePrime(100)) {
       println("You said $firstFactor is prime, but $firstFactor is not prime.")
       println("Please try again! Terminating...")
-      System.exit(0)
+      exitProcess(0)
     }
     if (Math.random() < 0.1)
       println("$i=>$factors")

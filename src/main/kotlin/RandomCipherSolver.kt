@@ -32,7 +32,7 @@ fun main() {
 
   pairwise()
 
-  ciphertext.split(" ").filter { !it.isEmpty() }.forEach {
+  ciphertext.split(" ").filter { it.isNotEmpty() }.forEach {
     println(possibleWords.get(it).toString() + " -> (" + it + ")")
   }
 }
@@ -76,7 +76,7 @@ private fun pairwise() {
       val seen = HashBagMultimap.newMultimap<Char, Char>()
 
       for (word in entry.two) {
-        for (i in 0 until word.length) {
+        for (i in word.indices) {
           if (!candidates.containsKeyAndValue(token[i], word[i])) {
             impossibleWords.add(word)
             break
