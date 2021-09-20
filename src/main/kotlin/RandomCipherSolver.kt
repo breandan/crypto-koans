@@ -6,28 +6,19 @@ import java.util.*
 private val possibleWords = FastListMultimap.newMultimap<String, String>()
 
 fun main() {
-  var sc = Scanner(File("src/main/resources/google-10000-english.txt"))
-  val lines = ArrayList<String>()
-  while (sc.hasNextLine()) {
-    lines.add(sc.nextLine())
-  }
+  val sc = File("src/main/resources/google-10000-english.txt")
+  val lines = sc.readLines()
 
   val patterns = FastListMultimap.newMultimap<String, String>()
   lines.forEach { patterns.put(convertWordToPattern(it), it) }
 
-  sc = Scanner(File("src/main/resources/ciphertext"))
-  sc.useDelimiter(" ")
+  val ciphertext = File("src/main/resources/ciphertext")
+    .readText().split(" ").joinToString(" ") { s ->
+      if (!possibleWords.containsKey(s))
+        possibleWords.putAll(s, patterns.get(convertWordToPattern(s)))
+      s.lowercase()
+    }
 
-  val sb = StringBuilder()
-
-  while (sc.hasNext()) {
-    val s = sc.next()
-    if (!possibleWords.containsKey(s))
-      possibleWords.putAll(s, patterns.get(convertWordToPattern(s)))
-    sb.append("$s ")
-  }
-
-  val ciphertext = sb.toString()
   println(ciphertext)
 
   pairwise()
@@ -60,13 +51,11 @@ fun main() {
  * approximate the plaintext message.
  */
 
-private fun pairwise() {
+private fun pairwise(alphabet: Iterable<Char> = 'a'..'z') {
   var lastDictionarySize = 0
   val candidates = HashBagMultimap.newMultimap<Char, Char>()
 
-  for (i in 'a'..'z')
-    for (j in 'a'..'z')
-      candidates.put(i, j)
+  for (i in alphabet) for (j in alphabet) candidates.put(i, j)
 
   while (possibleWords.size() != lastDictionarySize) {
     lastDictionarySize = possibleWords.size()
@@ -100,13 +89,11 @@ private fun pairwise() {
         // Try to solve for proper nouns, but let's indicate with CAPS
         if (possibleWords[token].isEmpty)
           possibleWords.put(token,
-            token.map { candidates[it].first().toUpperCase() }.joinToString(""))
+            token.map { candidates[it].first().uppercaseChar() }.joinToString(""))
       }
     }
   }
 }
 
-private fun convertWordToPattern(word: String): String {
-  val m = HashMap<Char, Char>()
-  return word.map { m.computeIfAbsent(it) { 'a' + m.size } }.joinToString("")
-}
+private fun convertWordToPattern(word: String, m: HashMap<Char, Char> = HashMap()): String =
+  word.map { m.computeIfAbsent(it) { 'a' + m.size } }.joinToString("")
