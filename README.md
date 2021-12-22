@@ -212,3 +212,8 @@ If configured correctly, it should print the following output:
 ```
 Let's learn about cryptology!
 ```
+
+## Learn more
+
+* [Intuitive Advanced Cryptography](https://github.com/cryptosubtlety/intuitive-advanced-cryptography/blob/master/advancedcrypto.pdf), Quan (2019)
+* [Handbook of Applied Cryptography](https://cacr.uwaterloo.ca/hac/), Menezes et al. (2001)
