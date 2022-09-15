@@ -8,23 +8,17 @@ import java.math.BigInteger.*
 // distinct prime numbers and P, Q, R, PQ, QR, PR, PQR are all binary palindromes
 // https://en.wikipedia.org/wiki/Sphenic_number
 fun main() {
-  var i = valueOf(9100)
+  var i = valueOf(9800)
   val emirps = mutableSetOf<BigInteger>(
-    valueOf(7523L),
-    valueOf(7547L),
-    valueOf(7561L),
-    valueOf(7577L),
-    valueOf(7589L),
-    valueOf(7681L),
-    valueOf(7757L),
-    valueOf(7841L),
-    valueOf(9001L),
-    valueOf(9013L),
-    valueOf(9103L),
-    valueOf(9133L),
-    valueOf(9173L)
+    valueOf(9769),
+    valueOf(9883),
+    valueOf(10039),
+    valueOf(10069),
+    valueOf(10079),
+    valueOf(10151),
+    valueOf(10159),
   )
-  val bestCandidates: MutableSet<Set<BigInteger>> = mutableSetOf(setOf(valueOf(9133L), valueOf(9103L)))
+  val bestCandidates: MutableSet<Set<BigInteger>> = mutableSetOf(setOf(valueOf(10079L), valueOf(9883L)))
   val checked = mutableSetOf<Set<BigInteger>>()
   while (true) {
     if (i.isEmirp() && i.isProbablePrime(1)) {
@@ -33,8 +27,10 @@ fun main() {
         .forEach { pair: Set<BigInteger> ->
           checked.add(pair.toSet())
           val (p, q) = pair.toList().let { Pair(it[0], it[1]) }
-          if ((p * q).isEmirpimes())
+          if ((p * q).isEmirpimes()) {
+            emirps.removeIf { it < p.min(q) }
             bestCandidates.add(setOf(p, q).also { println(it.joinToString(" * ", "", " = ") + it.mult()) })
+          }
         }
     }
     i++

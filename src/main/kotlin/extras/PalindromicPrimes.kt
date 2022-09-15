@@ -20,8 +20,10 @@ fun main() {
         checked.add(it)
         val (p, q, r) = it.toList().let { Triple(it[0], it[1], it[2]) }
         val candidate = setOf(p, q, r)
-        if (isTripleBinaryPalindrome(p, q, r) && candidate !in triplePalprimes)
+        if (isTripleBinaryPalindrome(p, q, r) && candidate !in triplePalprimes) {
+          palprimes.removeIf { it < candidate.min() }
           triplePalprimes.add(setOf(p, q, r).also { println("$it = ${it.mult()}") })
+        }
       }
     }
     i++
