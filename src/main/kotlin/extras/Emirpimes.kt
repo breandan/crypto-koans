@@ -1,44 +1,21 @@
 package extras
 
-import ai.hypergraph.kaliningraph.sampling.choose
 import java.math.BigInteger
 import java.math.BigInteger.*
 
-// Finds triply-palindromic binary sphenic numbers, i.e. M = PQR where P, Q, R are
-// distinct prime numbers and P, Q, R, PQ, QR, PR, PQR are all binary palindromes
-// https://en.wikipedia.org/wiki/Sphenic_number
-/*
-9883
-10039
-10069
-10079
-10151
-10159
-10247
-10247 * 10151 = 104017297
-10321
-10321 * 10159 = 104851039
-10333
-10429
-10453
-10613
-10613 * 10429 = 110682977
-10639
-10639 * 10613 = 112911707
-10711
- */
+// Finds twin emirps whose product is an emirpimes
+// https://en.wikipedia.org/wiki/Emirp
 fun main() {
-  var i = valueOf(2)
-  while (true) {
-    if (i.isEmirp()) {
-      val (p, q) = BigInteger(i.toString()) to BigInteger(i.toString().reversed())
+  (12000..999999).toList().shuffled().parallelStream().forEach { v ->
+    val i = BigInteger("$v")
+    if (i.isTwinEmirp()) {
+      val (p, q) = i to BigInteger(i.toString().reversed())
       println(setOf(p, q).also { println(it.joinToString(" * ", "", " = ") + it.mult()) })
     }
-    i++
   }
 }
 
-fun BigInteger.isEmirp() =
+fun BigInteger.isTwinEmirp() =
   BigInteger(toBinaryString().reversed(), 2).isProbablePrime(1) &&
   toBinaryString() != toBinaryString().reversed() &&
   isProbablePrime(1) &&
