@@ -7,31 +7,32 @@ import java.math.BigInteger.*
 // Finds triply-palindromic binary sphenic numbers, i.e. M = PQR where P, Q, R are
 // distinct prime numbers and P, Q, R, PQ, QR, PR, PQR are all binary palindromes
 // https://en.wikipedia.org/wiki/Sphenic_number
+/*
+9883
+10039
+10069
+10079
+10151
+10159
+10247
+10247 * 10151 = 104017297
+10321
+10321 * 10159 = 104851039
+10333
+10429
+10453
+10613
+10613 * 10429 = 110682977
+10639
+10639 * 10613 = 112911707
+10711
+ */
 fun main() {
-  var i = valueOf(9800)
-  val emirps = mutableSetOf<BigInteger>(
-    valueOf(9769),
-    valueOf(9883),
-    valueOf(10039),
-    valueOf(10069),
-    valueOf(10079),
-    valueOf(10151),
-    valueOf(10159),
-  )
-  val bestCandidates: MutableSet<Set<BigInteger>> = mutableSetOf(setOf(valueOf(10079L), valueOf(9883L)))
-  val checked = mutableSetOf<Set<BigInteger>>()
+  var i = valueOf(2)
   while (true) {
-    if (i.isEmirp() && i.isProbablePrime(1)) {
-      i.toBinaryString().also { emirps.add(i.also { println(i) }) }
-      if (emirps.size > 2) emirps.choose(2).filter { it !in checked && bestCandidates.last().mult() < it.mult() }
-        .forEach { pair: Set<BigInteger> ->
-          checked.add(pair.toSet())
-          val (p, q) = pair.toList().let { Pair(it[0], it[1]) }
-          if ((p * q).isEmirpimes()) {
-            emirps.removeIf { it < p.min(q) }
-            bestCandidates.add(setOf(p, q).also { println(it.joinToString(" * ", "", " = ") + it.mult()) })
-          }
-        }
+    if (i.isEmirp()) {
+      val (p, q) = BigInteger(i.toString()) to BigInteger(i.toString().reversed())
+      println(setOf(p, q).also { println(it.joinToString(" * ", "", " = ") + it.mult()) })
     }
     i++
   }
@@ -40,9 +41,11 @@ fun main() {
 fun BigInteger.isEmirp() =
   BigInteger(toBinaryString().reversed(), 2).isProbablePrime(1) &&
   toBinaryString() != toBinaryString().reversed() &&
-  BigInteger(toString()).isProbablePrime(1) &&
+  isProbablePrime(1) &&
   BigInteger(toString().reversed()).isProbablePrime(1) &&
-  toString() != toString().reversed()
+  toString() != toString().reversed() &&
+  (this * BigInteger(toString().reversed())).isEmirpimes() &&
+  (this * BigInteger(toBinaryString().reversed(), 2)).isEmirpimes()
 
 fun BigInteger.isEmirpimes() =
   isSemiprime(this) &&
