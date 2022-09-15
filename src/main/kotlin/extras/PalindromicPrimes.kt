@@ -1,5 +1,6 @@
 package extras
 
+import ai.hypergraph.kaliningraph.sampling.choose
 import java.math.BigInteger
 import java.math.BigInteger.*
 
@@ -8,32 +9,24 @@ import java.math.BigInteger.*
 // https://en.wikipedia.org/wiki/Sphenic_number
 fun main() {
   var i = valueOf(100)
-  val palindromicPrimes = mutableSetOf<BigInteger>()
-  val triplePalindromicPrimes = mutableSetOf<Set<BigInteger>>()
+  val palprimes = mutableSetOf<BigInteger>()
+  val triplePalprimes: MutableSet<Set<BigInteger>> = mutableSetOf()
+  val checked = mutableSetOf<Set<BigInteger>>()
+
   while (true) {
-    if (i.isNontrivialBinaryPalindrome() && i.isProbablePrime(1)) palindromicPrimes.add(i)
-    var j = 0
-    do {
-      if (palindromicPrimes.size < 3) break
-      // This is a very inefficient algorithm, but it seems to get the job done...
-      val (p, q) = palindromicPrimes.shuffled().take(2).let { Pair(it[0], it[1]) }
-      val candidate = setOf(p, q)
-      if (
-        isDoubleBinaryPalindrome(p, q) &&
-        p.isNontrivialBinaryPalindrome() &&
-        q.isNontrivialBinaryPalindrome() &&
-        candidate !in triplePalindromicPrimes
-      ) { println("$p $q"); triplePalindromicPrimes.add(setOf(p, q)) }
-      j++
-    } while(j < 1000)
+    if (i.isNontrivialBinaryPalindrome() && i.isProbablePrime(1)) {
+      i.toBinaryString().also { palprimes.add(i) }
+      if (2 < palprimes.size) palprimes.choose(3).filter { it !in checked }.forEach { it ->
+        checked.add(it)
+        val (p, q, r) = it.toList().let { Triple(it[0], it[1], it[2]) }
+        val candidate = setOf(p, q, r)
+        if (isTripleBinaryPalindrome(p, q, r) && candidate !in triplePalprimes)
+          triplePalprimes.add(setOf(p, q, r).also { println("$it = ${it.mult()}") })
+      }
+    }
     i++
   }
 }
-
-fun isDoubleBinaryPalindrome(p: BigInteger, q: BigInteger) =
-  (p * q).isNontrivialBinaryPalindrome() &&
-    p.isNontrivialBinaryPalindrome() &&
-    q.isNontrivialBinaryPalindrome()
 
 fun isTripleBinaryPalindrome(p: BigInteger, q: BigInteger, r: BigInteger) =
   (p * q * r).isNontrivialBinaryPalindrome() &&
@@ -45,8 +38,9 @@ fun BigInteger.isNontrivialBinaryPalindrome() =
   toBinaryString().isPalindrome() && isNonTrivial()
 
 // Checks whether the solution is nontrivial, i.e., contains a mixture of 0s and 1s
-fun BigInteger.isNonTrivial() =
-  toBinaryString().fold(0 to 0) { (a, b), it -> if (it == '0') a + 1 to b else a to b + 1 }.toList().minOrNull()!! > 0
+private fun BigInteger.isNonTrivial() =
+  toBinaryString().fold(0 to 0) { (a, b), it -> if (it == '0') a + 1 to b else a to b + 1 }
+    .toList().minOrNull()!! > 0
 
 fun String.isPalindrome() = this == reversed()
 
