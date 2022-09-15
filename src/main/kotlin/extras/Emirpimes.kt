@@ -51,7 +51,8 @@ fun BigInteger.isEmirpimes() =
   isSemiprime(this) &&
     isSemiprime(BigInteger(toString().reversed())) &&
     isSemiprime(BigInteger(toBinaryString().reversed(), 2)) &&
-    toBinaryString() != toBinaryString().reversed()
+    toBinaryString() != toBinaryString().reversed() &&
+    toString() != toString().reversed()
 
 fun Set<BigInteger>.mult() = fold(ONE) { acc, bigInteger ->  acc * bigInteger }
 
